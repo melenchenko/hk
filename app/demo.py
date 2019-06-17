@@ -3,19 +3,29 @@ from .forms import LoadForm
 from .models import Load, Demo
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import csv
 
 @receiver(post_save, sender=Load)
 def demo_saver(sender, instance, **kwargs):
-    Demo.objects.create(load=instance, iris='Iris-setosa', sepal_length=0.1, sepal_width=0.2, petal_length=0.3, petal_width=0.4)
-    Demo.objects.create(load=instance, iris='Iris-versicolor', sepal_length=0.1, sepal_width=0.2, petal_length=0.3, petal_width=0.4)
+    with open(instance.file.name, newline='') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            Demo.objects.create(
+                load=instance,
+                iris=row[4],
+                sepal_length=row[0],
+                sepal_width=row[1],
+                petal_length=row[2],
+                petal_width=row[3]
+            )
 
 def load(request):
     if request.method == "POST":
-        form = LoadForm(request.POST)
+        form = LoadForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.type = 'demo'
+            post.type = 'Demo'
             post.save()
             return redirect('demo-view', pk=post.pk)
     else:

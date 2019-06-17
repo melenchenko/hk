@@ -5,7 +5,7 @@ from django.utils import timezone
 class Load(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    text = models.TextField()
+    file = models.FileField(upload_to='uploads/')
     created_date = models.DateTimeField(default=timezone.now)
     type = models.CharField(max_length=40, default='Demo')
 
