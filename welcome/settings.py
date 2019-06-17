@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -112,13 +112,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/usr/share/django-projects/welcome/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static/'),
+]
+print('STATICFILES_DIRS=', STATICFILES_DIRS)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django',
         'USER': 'django',
-        'HOST': '84.201.160.133',
+        'HOST': '127.0.0.1',
         'PASSWORD': 'ZqOcYwBU8iNJe',
     }
 }
