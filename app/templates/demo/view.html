@@ -1,1 +1,11 @@
-VIEW
+<table>
+{% for field in data %}
+    <tr>
+        <td>{{ field.iris }}</td>
+        <td>{{ field.sepal_length }}</td>
+        <td>{{ field.sepal_width }}</td>
+        <td>{{ field.petal_length }}</td>
+        <td>{{ field.petal_width }}</td>
+    </tr>
+{% endfor %}
+</table>

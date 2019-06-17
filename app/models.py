@@ -14,12 +14,12 @@ class Load(models.Model):
 
 class Demo(models.Model):
     IRISES = (
-        (0, 'Iris-setosa'),
-        (1, 'Iris-versicolor'),
-        (2, 'Iris-virginica'),
+        ('Iris-setosa', 'Iris-setosa'),
+        ('Iris-versicolor', 'Iris-versicolor'),
+        ('Iris-virginica', 'Iris-virginica'),
     )
     load = models.ForeignKey(Load, on_delete=models.CASCADE)
-    iris = models.IntegerField(choices=IRISES)
+    iris = models.CharField(max_length=40, choices=IRISES)
     sepal_length = models.FloatField()
     sepal_width = models.FloatField()
     petal_length = models.FloatField()
