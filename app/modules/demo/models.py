@@ -4,6 +4,23 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import csv
 
+DEMO_SCHEMA = {
+    'targets': {
+        'Iris-setosa': {
+            'color': 'rgba(255, 182, 193, .9)'
+        },
+        'Iris-versicolor': {
+            'color': 'rgba(3, 212, 3, .9)'
+        },
+        'Iris-virginica': {
+            'color': 'rgba(46, 82, 193, .9)'
+        },
+    },
+    'x': 'sepal_length',
+    'y': 'sepal_width',
+}
+
+
 @receiver(post_save, sender=Load)
 def demo_saver(sender, instance, **kwargs):
     with open(instance.file.name, newline='') as f:

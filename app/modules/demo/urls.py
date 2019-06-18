@@ -6,4 +6,5 @@ urlpatterns = [
     path('view/<int:pk>', views.view, name='demo-view'),
     path('analyze', views.analyze, name='demo-analyze'),
     path('settings', views.settings, name='demo-settings'),
+    path('graph/<int:pk>', views.graph, name='demo-graph'),
 ]
