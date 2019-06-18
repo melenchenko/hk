@@ -1,442 +1,210 @@
-<!doctype html>
-<html lang="ru">
- 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="static/assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link href="static/assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="static/assets/libs/css/style.css">
-    <link rel="stylesheet" href="static/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
-    <link rel="stylesheet" href="static/assets/vendor/charts/chartist-bundle/chartist.css">
-    <link rel="stylesheet" href="static/assets/vendor/charts/morris-bundle/morris.css">
-    <link rel="stylesheet" href="static/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="static/assets/vendor/charts/c3charts/c3.css">
-    <link rel="stylesheet" href="static/assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
-    <title>{{ tittle }}</title>
-</head>
-
-<body>
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
-    <div class="dashboard-main-wrapper">
+{% extends "base.html" %}
+{% block content %}
+<div class="dashboard-ecommerce">
+    <div class="container-fluid dashboard-content ">
         <!-- ============================================================== -->
-        <!-- navbar -->
+        <!-- pageheader  -->
         <!-- ============================================================== -->
-        <!--
-        <div class="dashboard-header">
-            <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="static/index.html">Concept</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto navbar-right-top">
-                        <li class="nav-item">
-                            <div id="custom-search" class="top-search-bar">
-                                <input class="form-control" type="text" placeholder="Search..">
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown notification">
-                            <a class="nav-link nav-icons" href="static/#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
-                            <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
-                                <li>
-                                    <div class="notification-title"> Notification</div>
-                                    <div class="notification-list">
-                                        <div class="list-group">
-                                            <a href="static/#" class="list-group-item list-group-item-action active">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="static/assets/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
-                                                        <div class="notification-date">2 min ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="static/#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="static/assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">John Abraham </span>is now following you
-                                                        <div class="notification-date">2 days ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="static/#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="static/assets/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
-                                                        <div class="notification-date">2 min ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="static/#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="static/assets/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
-                                                        <div class="notification-date">2 min ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-footer"> <a href="static/#">View all notifications</a></div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown connection">
-                            <a class="nav-link" href="static/#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-th"></i> </a>
-                            <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
-                                <li class="connection-list">
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="static/#" class="connection-item"><img src="static/assets/images/github.png" alt="" > <span>Github</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="static/#" class="connection-item"><img src="static/assets/images/dribbble.png" alt="" > <span>Dribbble</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="static/#" class="connection-item"><img src="static/assets/images/dropbox.png" alt="" > <span>Dropbox</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="static/#" class="connection-item"><img src="static/assets/images/bitbucket.png" alt=""> <span>Bitbucket</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="static/#" class="connection-item"><img src="static/assets/images/mail_chimp.png" alt="" ><span>Mail chimp</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="static/#" class="connection-item"><img src="static/assets/images/slack.png" alt="" > <span>Slack</span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="conntection-footer"><a href="static/#">More</a></div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown nav-user">
-                            <a class="nav-link nav-user-img" href="static/#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="static/assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
-                            <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
-                                <div class="nav-user-info">
-                                    <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
-                                    <span class="status"></span><span class="ml-2">Available</span>
-                                </div>
-                                <a class="dropdown-item" href="static/#"><i class="fas fa-user mr-2"></i>Account</a>
-                                <a class="dropdown-item" href="static/#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                                <a class="dropdown-item" href="static/#"><i class="fas fa-power-off mr-2"></i>Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-        -->
-        <!-- ============================================================== -->
-        <!-- end navbar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- left sidebar -->
-        <!-- ============================================================== -->
-        <div class="nav-left-sidebar sidebar-dark">
-            <div class="menu-list">
-                <nav class="navbar navbar-expand-lg navbar-light">
-                    <a class="d-xl-none d-lg-none" href="static/#">{{ name }}</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav flex-column">
-                            <li class="nav-divider">
-                                Menu
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link active" href="/"><i class="fa fa-fw fa-user-circle"></i>Dashboard</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link active" href="tables/"><i class="fas fa-fw fa-table"></i>Таблицы</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link active" href="graphs/"><i class="fas fa-fw fa-chart-pie"></i>Графики</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link active" href="map/"><i class="fas fa-fw fa-map-marker-alt"></i>Карта</a>
-                            </li>
-                        </ul>
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-header">
+                    <h2 class="pageheader-title">{{ name }}</h2>
+                    <p class="pageheader-text">Описание страницы</p>
+                    <div class="page-breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/" class="breadcrumb-link">Dashboard</a></li>
+                            </ol>
+                        </nav>
                     </div>
-                </nav>
+                </div>
             </div>
         </div>
         <!-- ============================================================== -->
-        <!-- end left sidebar -->
+        <!-- Блок верхних карточек  -->
         <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
-        <div class="dashboard-wrapper">
-            <div class="dashboard-ecommerce">
-                <div class="container-fluid dashboard-content ">
-                    <!-- ============================================================== -->
-                    <!-- pageheader  -->
-                    <!-- ============================================================== -->
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="page-header">
-                                <h2 class="pageheader-title">{{ name }}</h2>
-                                <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
-                                <div class="page-breadcrumb">
-                                    <nav aria-label="breadcrumb">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="static/#" class="breadcrumb-link">Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">E-Commerce Dashboard Template</li>
-                                        </ol>
-                                    </nav>
-                                </div>
+        <div class="ecommerce-widget">
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="text-muted">{{ card1.name }}</h5>
+                            <div class="metric-value d-inline-block">
+                                <h1 class="mb-1">{{ card1.value }}</h1>
                             </div>
-                        </div>
-                    </div>
-                    <!-- ============================================================== -->
-                    <!-- Блок верхних карточек  -->
-                    <!-- ============================================================== -->
-                    <div class="ecommerce-widget">
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                <div class="card-body">
-                                    <h5 class="text-muted">{{ card1.name }}</h5>
-                                    <div class="metric-value d-inline-block">
-                                        <h1 class="mb-1">{{ card1.value }}</h1>
-                                    </div>
-                                    <div class="metric-label d-inline-block float-right {{ card1.div }} font-weight-bold">
+                            <div class="metric-label d-inline-block float-right {{ card1.div }} font-weight-bold">
                                         <span class="icon-circle-small icon-box-xs {{ card1.span }}">
                                             <i class="fa fa-fw {{ card1.arrow }}"></i></span><span class="ml-1">{{ card1.trend }}</span>
-                                    </div>
-                                </div>
-                                </div>
                             </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                <div class="card-body">
-                                    <h5 class="text-muted">{{ card2.name }}</h5>
-                                    <div class="metric-value d-inline-block">
-                                        <h1 class="mb-1">{{ card2.value }}</h1>
-                                    </div>
-                                    <div class="metric-label d-inline-block float-right {{ card2.div }} font-weight-bold">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="text-muted">{{ card2.name }}</h5>
+                            <div class="metric-value d-inline-block">
+                                <h1 class="mb-1">{{ card2.value }}</h1>
+                            </div>
+                            <div class="metric-label d-inline-block float-right {{ card2.div }} font-weight-bold">
                                         <span class="icon-circle-small icon-box-xs {{ card2.span }}">
                                             <i class="fa fa-fw {{ card2.arrow }}"></i></span><span class="ml-1">{{ card2.trend }}</span>
-                                    </div>
-                                </div>
-                                </div>
                             </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                <div class="card-body">
-                                    <h5 class="text-muted">{{ card3.name }}</h5>
-                                    <div class="metric-value d-inline-block">
-                                        <h1 class="mb-1">{{ card3.value }}</h1>
-                                    </div>
-                                    <div class="metric-label d-inline-block float-right {{ card3.div }} font-weight-bold">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="text-muted">{{ card3.name }}</h5>
+                            <div class="metric-value d-inline-block">
+                                <h1 class="mb-1">{{ card3.value }}</h1>
+                            </div>
+                            <div class="metric-label d-inline-block float-right {{ card3.div }} font-weight-bold">
                                         <span class="icon-circle-small icon-box-xs {{ card3.span }}">
                                             <i class="fa fa-fw {{ card3.arrow }}"></i></span><span class="ml-1">{{ card3.trend }}</span>
-                                    </div>
-                                </div>
-                                </div>
                             </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                <div class="card-body">
-                                    <h5 class="text-muted">{{ card4.name }}</h5>
-                                    <div class="metric-value d-inline-block">
-                                        <h1 class="mb-1">{{ card4.value }}</h1>
-                                    </div>
-                                    <div class="metric-label d-inline-block float-right {{ card4.div }} font-weight-bold">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="text-muted">{{ card4.name }}</h5>
+                            <div class="metric-value d-inline-block">
+                                <h1 class="mb-1">{{ card4.value }}</h1>
+                            </div>
+                            <div class="metric-label d-inline-block float-right {{ card4.div }} font-weight-bold">
                                         <span class="icon-circle-small icon-box-xs {{ card4.span }}">
                                             <i class="fa fa-fw {{ card4.arrow }}"></i></span><span class="ml-1">{{ card4.trend }}</span>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Окончание блока карточек -->
-
-                        <!-- =========================================== -->
-                        <!-- Блок  таблица и гистограмма -->
-                        <!-- =========================================== -->
-                        <div class="row">
-                            <!-- Большая таблица справа -->
-                            <div class="col-xl-8 col-lg-12 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <h5 class="card-header">{{ table.name }}</h5>
-                                    <div class="card-body p-0">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead class="bg-light">
-                                                    <tr class="border-0">
-                                                        {% for header in table.headers %}
-                                                            <th class="border-0">{{ header }}</th>
-                                                        {% endfor %}
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for line in table.data %}
-                                                    <tr>
-                                                        {% for i in line %}
-                                                            <td>{{ i }}</td>
-                                                        {% endfor %}
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Меленькая гистограмма с накоплением слева -->
-                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    {{ histogram|safe }}
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Окончание блока -->
-
-
-                        <!-- Группа из 2-х графиков в центре -->
-                        <div class="row">
-                            <!-- Чарт в центре слева -->
-                            <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-                                <div class="card">
-                                {{ plot_chart1|safe }}
-                                </div>
-                            </div>
-
-                            <!-- График линии в центре справа-->
-                            <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
-                                <div class="card">
-                                {{ plot_lines1|safe }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Группа из 2-х таблиц внизу -->
-                        <div class="row">
-                            <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <!-- ============================================================== -->
-                                <!-- Социальные группы  -->
-                                <!-- ============================================================== -->
-                                <div class="card">
-                                    <h5 class="card-header">{{ social.name }}</h5>
-                                    <div class="card-body p-0">
-                                        <ul class="traffic-sales list-group list-group-flush">
-                                            {% for group in social.groups %}
-                                            <li class="traffic-sales-content list-group-item ">
-                                                <span class="traffic-sales-name">{{group.name}}</span>
-                                                <span class="traffic-sales-amount">{{group.value}}
-                                                    <span class="icon-circle-small icon-box-xs {{group.span}}">
-                                                        <i class="fa fa-fw {{group.arrow}}"></i>
-                                                    </span>
-                                                    <span class="ml-1 {{group.div}}">{{ group.trend }}</span>
-                                                </span>
-                                            </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a href="static/#" class="btn-primary-link">View Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- ============================================================== -->
-                            <!-- end sales traffice source  -->
-                            <!-- ============================================================== -->
-                            <!-- ============================================================== -->
-                            <!-- sales traffic country source  -->
-                            <!-- ============================================================== -->
-                            <div class="col-xl-4 col-lg-12 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <h5 class="card-header">{{ region.name }}</h5>
-                                    <div class="card-body p-0">
-                                        <ul class="traffic-sales list-group list-group-flush">
-                                            {% for group in region.groups %}
-                                            <li class="traffic-sales-content list-group-item ">
-                                                <span class="traffic-sales-name">{{group.name}}</span>
-                                                <span class="traffic-sales-amount">{{group.value}}
-                                                    <span class="icon-circle-small icon-box-xs {{group.span}}">
-                                                        <i class="fa fa-fw {{group.arrow}}"></i>
-                                                    </span>
-                                                    <span class="ml-1 {{group.div}}">{{ group.trend }}</span>
-                                                </span>
-                                            </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a href="static/#" class="btn-primary-link">View Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- ============================================================== -->
-                            <!-- end sales traffice country source  -->
-                            <!-- ============================================================== -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <div class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                             Copyright © 2018 Concept. All rights reserved.<a href="static/https://colorlib.com/wp/">Colorlib</a>.
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                            <div class="text-md-right footer-links d-none d-sm-block">
-                                <a href="static/javascript: void(0);">О проекте</a>
-                                <a href="static/javascript: void(0);">Контакты</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- end footer -->
-            <!-- ============================================================== -->
+            <!-- Окончание блока карточек -->
+
+            <!-- =========================================== -->
+            <!-- Блок  таблица и гистограмма -->
+            <!-- =========================================== -->
+            <div class="row">
+                <!-- Большая таблица справа -->
+                <div class="col-xl-8 col-lg-12 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <h5 class="card-header">{{ table.name }}</h5>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="bg-light">
+                                    <tr class="border-0">
+                                        {% for header in table.headers %}
+                                        <th class="border-0">{{ header }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for line in table.data %}
+                                    <tr>
+                                        {% for i in line %}
+                                        <td>{{ i }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Меленькая гистограмма с накоплением слева -->
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        {{ histogram|safe }}
+                    </div>
+                </div>
+            </div>
+            <!-- Окончание блока -->
+
+
+            <!-- Группа из 2-х графиков в центре -->
+            <div class="row">
+                <!-- Чарт в центре слева -->
+                <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        {{ plot_chart1|safe }}
+                    </div>
+                </div>
+
+                <!-- График линии в центре справа-->
+                <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        {{ plot_lines1|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Группа из 2-х таблиц внизу -->
+            <div class="row">
+                <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <!-- ============================================================== -->
+                    <!-- Социальные группы  -->
+                    <!-- ============================================================== -->
+                    <div class="card">
+                        <h5 class="card-header">{{ social.name }}</h5>
+                        <div class="card-body p-0">
+                            <ul class="traffic-sales list-group list-group-flush">
+                                {% for group in social.groups %}
+                                <li class="traffic-sales-content list-group-item ">
+                                    <span class="traffic-sales-name">{{group.name}}</span>
+                                    <span class="traffic-sales-amount">{{group.value}}
+                                                    <span class="icon-circle-small icon-box-xs {{group.span}}">
+                                                        <i class="fa fa-fw {{group.arrow}}"></i>
+                                                    </span>
+                                                    <span class="ml-1 {{group.div}}">{{ group.trend }}</span>
+                                                </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="static/#" class="btn-primary-link">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- end sales traffice source  -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- sales traffic country source  -->
+                <!-- ============================================================== -->
+                <div class="col-xl-4 col-lg-12 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <h5 class="card-header">{{ region.name }}</h5>
+                        <div class="card-body p-0">
+                            <ul class="traffic-sales list-group list-group-flush">
+                                {% for group in region.groups %}
+                                <li class="traffic-sales-content list-group-item ">
+                                    <span class="traffic-sales-name">{{group.name}}</span>
+                                    <span class="traffic-sales-amount">{{group.value}}
+                                                    <span class="icon-circle-small icon-box-xs {{group.span}}">
+                                                        <i class="fa fa-fw {{group.arrow}}"></i>
+                                                    </span>
+                                                    <span class="ml-1 {{group.div}}">{{ group.trend }}</span>
+                                                </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="static/#" class="btn-primary-link">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- end sales traffice country source  -->
+                <!-- ============================================================== -->
+            </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- end wrapper  -->
-        <!-- ============================================================== -->
     </div>
-    <!-- ============================================================== -->
-    <!-- end main wrapper  -->
-    <!-- ============================================================== -->
-    <!-- Optional JavaScript -->
-    <!-- jquery 3.3.1 -->
-    <script src="static/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
-    <!-- bootstap bundle js -->
-    <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    <!-- slimscroll js -->
-    <script src="static/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
-    <!-- main js -->
-    <script src="static/assets/libs/js/main-js.js"></script>
-    <!-- chart chartist js -->
-    <script src="static/assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
-    <!-- sparkline js -->
-    <script src="static/assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
-    <!-- morris js -->
-    <script src="static/assets/vendor/charts/morris-bundle/raphael.min.js"></script>
-    <script src="static/assets/vendor/charts/morris-bundle/morris.js"></script>
-    <!-- chart c3 js -->
-    <script src="static/assets/vendor/charts/c3charts/c3.min.js"></script>
-    <script src="static/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
-    <script src="static/assets/vendor/charts/c3charts/C3chartjs.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-</body>
- 
-</html>
+</div>
+{% endblock content %}
