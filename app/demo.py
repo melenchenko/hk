@@ -3,6 +3,7 @@ from .forms import LoadForm
 from .models import Load, Demo
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth.decorators import login_required
 import csv
 
 @receiver(post_save, sender=Load)
@@ -19,6 +20,7 @@ def demo_saver(sender, instance, **kwargs):
                 petal_width=row[3]
             )
 
+@login_required
 def load(request):
     if request.method == "POST":
         form = LoadForm(request.POST, request.FILES)
@@ -32,12 +34,15 @@ def load(request):
         form = LoadForm()
     return render(request, 'demo/load.html', {'form': form})
 
+@login_required
 def settings(request):
     return render(request, 'demo/settings.html', {})
 
+@login_required
 def view(request, pk):
     data = Demo.objects.filter(load_id=pk)
     return render(request, 'demo/view.html', {'data': data})
 
+@login_required
 def analyze(request):
     return render(request, 'demo/analyze.html', {})
