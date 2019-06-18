@@ -1,10 +1,7 @@
-from django.urls import path
-from . import views, demo
+from django.urls import path, include
+from . import views
 
 urlpatterns = [
     path('', views.test, name='test'),
-    path('demo/load', demo.load, name='demo-load'),
-    path('demo/view/<int:pk>', demo.view, name='demo-view'),
-    path('demo/analyze', demo.analyze, name='demo-analyze'),
-    path('demo/settings', demo.settings, name='demo-settings'),
+    path('demo/', include('app.modules.demo.urls')),
 ]

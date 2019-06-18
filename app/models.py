@@ -11,19 +11,3 @@ class Load(models.Model):
 
     def __str__(self):
         return self.title
-
-class Demo(models.Model):
-    IRISES = (
-        ('Iris-setosa', 'Iris-setosa'),
-        ('Iris-versicolor', 'Iris-versicolor'),
-        ('Iris-virginica', 'Iris-virginica'),
-    )
-    load = models.ForeignKey(Load, on_delete=models.CASCADE)
-    iris = models.CharField(max_length=40, choices=IRISES)
-    sepal_length = models.FloatField()
-    sepal_width = models.FloatField()
-    petal_length = models.FloatField()
-    petal_width = models.FloatField()
-
-    def __str__(self):
-        return self.iris

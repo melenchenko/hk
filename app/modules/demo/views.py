@@ -1,24 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import LoadForm
-from .models import Load, Demo
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from app.forms import LoadForm
+from .models import Demo
 from django.contrib.auth.decorators import login_required
-import csv
-
-@receiver(post_save, sender=Load)
-def demo_saver(sender, instance, **kwargs):
-    with open(instance.file.name, newline='') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            Demo.objects.create(
-                load=instance,
-                iris=row[4],
-                sepal_length=row[0],
-                sepal_width=row[1],
-                petal_length=row[2],
-                petal_width=row[3]
-            )
 
 @login_required
 def load(request):
