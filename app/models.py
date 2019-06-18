@@ -1,3 +1,29 @@
+from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
-# Create your models here.
+class Load(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    file = models.FileField(upload_to='uploads/')
+    created_date = models.DateTimeField(default=timezone.now)
+    type = models.CharField(max_length=40, default='Demo')
+
+    def __str__(self):
+        return self.title
+
+class Demo(models.Model):
+    IRISES = (
+        ('Iris-setosa', 'Iris-setosa'),
+        ('Iris-versicolor', 'Iris-versicolor'),
+        ('Iris-virginica', 'Iris-virginica'),
+    )
+    load = models.ForeignKey(Load, on_delete=models.CASCADE)
+    iris = models.CharField(max_length=40, choices=IRISES)
+    sepal_length = models.FloatField()
+    sepal_width = models.FloatField()
+    petal_length = models.FloatField()
+    petal_width = models.FloatField()
+
+    def __str__(self):
+        return self.iris

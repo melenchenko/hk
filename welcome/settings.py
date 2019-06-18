@@ -123,7 +123,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django',
         'USER': 'django',
-        'HOST': '127.0.0.1',
+        'HOST': '84.201.152.173',
         'PASSWORD': 'ZqOcYwBU8iNJe',
     }
 }
