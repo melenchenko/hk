@@ -5,6 +5,10 @@ from django.dispatch import receiver
 import csv
 
 DEMO_SCHEMA = {
+    'fields': {
+        'target': 'iris',
+        'vars': ['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
+    },
     'targets': {
         'Iris-setosa': {
             'color': 'rgba(255, 182, 193, .9)'

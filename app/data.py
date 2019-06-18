@@ -1,17 +1,18 @@
 from plotly.offline import plot
 import plotly.graph_objs as go
+import numpy as np
+from sklearn.naive_bayes import GaussianNB
 
-
-def scatterplot(datas, schema):
-    data = []
-    for key, value in datas.items():
+def scatterplot(data, schema):
+    data_ = []
+    for key, value in data.items():
         x_ = []
         y_ = []
         for field in value:
             x_.append(getattr(field, schema['x']))
             y_.append(getattr(field, schema['y']))
 
-        data.append(go.Scatter(
+        data_.append(go.Scatter(
             x=x_,
             y=y_,
             name=key,
@@ -31,5 +32,24 @@ def scatterplot(datas, schema):
         xaxis=dict(zeroline=False)
     )
 
-    fig = dict(data=data, layout=layout)
+    fig = dict(data=data_, layout=layout)
     return plot(fig, output_type='div', include_plotlyjs=True)
+
+
+def prepare_data(data, schema):
+    x = []
+    y = []
+    for item in data:
+        x_ = []
+        for field_name in schema['fields']['vars']:
+            x_.append(getattr(item, field_name))
+        x.append(x_)
+        y.append(getattr(item, schema['fields']['target']))
+    return np.array(x), np.array(y)
+
+
+def fit(data, schema):
+    clf = GaussianNB()
+    dataX, dataY = prepare_data(data, schema)
+    clf.fit(dataX, dataY)
+    return clf

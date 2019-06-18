@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from app.forms import LoadForm
 from .models import Demo, DEMO_SCHEMA
 from django.contrib.auth.decorators import login_required
-from app.data import scatterplot
+from app.data import scatterplot, fit
 
 @login_required
 def load(request):
@@ -37,5 +37,8 @@ def view(request, pk):
     return render(request, 'demo/view.html', {'data': data})
 
 @login_required
-def analyze(request):
-    return render(request, 'demo/analyze.html', {})
+def analyze(request, pk):
+    data = Demo.objects.filter(load_id=pk)
+    predictor = fit(data, DEMO_SCHEMA)
+    result = predictor.predict([[4.9, 4, 1, 0.4]])
+    return render(request, 'demo/analyze.html', {'result': result[0]})
