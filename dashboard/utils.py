@@ -37,7 +37,7 @@ class Card:
             arrow = 'fa-arrow-down'
         else:
             arrow = ""
-        return {'name': self.name, 'value': self.value, 'trend': f"{self.trend}%", 'span': span, 'div': div, 'arrow': arrow}
+        return {'name': self.name, 'value': self.value, 'trend': "%s %%" % self.trend, 'span': span, 'div': div, 'arrow': arrow}
 
 
 class Graph:
