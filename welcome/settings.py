@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'map',
     'tables',
     'app',
+    'person',
 ]
 
 MIDDLEWARE = [

@@ -3,8 +3,11 @@ import random
 import datetime
 from plotly.offline import plot
 import dashboard.graphics as gr
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 
 
+@login_required(login_url=reverse_lazy('login'))
 def dash(request):
     # Верхние карточки
     card1, card2, card3, card4 = gr.cards()
