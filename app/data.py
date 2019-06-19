@@ -53,3 +53,10 @@ def fit(data, schema):
     dataX, dataY = prepare_data(data, schema)
     clf.fit(dataX, dataY)
     return clf
+
+
+def parse_form(form, schema):
+    result = []
+    for field_name in schema['fields']['vars']:
+        result.append(form.cleaned_data[field_name])
+    return [result]

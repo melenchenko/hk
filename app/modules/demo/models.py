@@ -2,12 +2,13 @@ from django.db import models
 from app.models import Load
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django import forms
 import csv
 
 DEMO_SCHEMA = {
     'fields': {
         'target': 'iris',
-        'vars': ['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
+        'vars': ('sepal_length', 'sepal_width', 'petal_length', 'petal_width'),
     },
     'targets': {
         'Iris-setosa': {
@@ -54,3 +55,9 @@ class Demo(models.Model):
 
     def __str__(self):
         return self.iris
+
+
+class PredictForm(forms.ModelForm):
+    class Meta:
+        model = Demo
+        fields = DEMO_SCHEMA['fields']['vars']

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from app.forms import LoadForm
-from .models import Demo, DEMO_SCHEMA
+from .models import Demo, DEMO_SCHEMA, PredictForm
 from django.contrib.auth.decorators import login_required
-from app.data import scatterplot, fit
+from app.data import scatterplot, fit, parse_form
 
 @login_required
 def load(request):
@@ -24,7 +24,6 @@ def settings(request):
 
 @login_required
 def graph(request, pk):
-    data = Demo.objects.filter(load_id=pk)
     data1 = Demo.objects.filter(load_id=pk, iris='Iris-setosa')
     data2 = Demo.objects.filter(load_id=pk, iris='Iris-versicolor')
     data3 = Demo.objects.filter(load_id=pk, iris='Iris-virginica')
@@ -38,7 +37,16 @@ def view(request, pk):
 
 @login_required
 def analyze(request, pk):
-    data = Demo.objects.filter(load_id=pk)
-    predictor = fit(data, DEMO_SCHEMA)
-    result = predictor.predict([[4.9, 4, 1, 0.4]])
-    return render(request, 'demo/analyze.html', {'result': result[0]})
+    result = 'Input data to predict'
+    if request.method == "POST":
+        form = PredictForm(request.POST)
+        if form.is_valid():
+            data = Demo.objects.filter(load_id=pk)
+            predictor = fit(data, DEMO_SCHEMA)
+            # result_ = predictor.predict([[4.9, 4, 1, 0.4]])
+            prepare_data = parse_form(form, DEMO_SCHEMA)
+            result_ = predictor.predict(prepare_data)
+            result = result_[0]
+    else:
+        form = PredictForm()
+    return render(request, 'demo/analyze.html', {'result': result, 'form': form})
