@@ -1,6 +1,4 @@
 from django.shortcuts import render
-import random
-import datetime
 from plotly.offline import plot
 import map.utils as ut
 from django.contrib.auth.decorators import login_required
