@@ -28,17 +28,19 @@ DEMO_SCHEMA = {
 
 @receiver(post_save, sender=Load)
 def demo_saver(sender, instance, **kwargs):
-    with open(instance.file.name, newline='') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            Demo.objects.create(
-                load=instance,
-                iris=row[4],
-                sepal_length=row[0],
-                sepal_width=row[1],
-                petal_length=row[2],
-                petal_width=row[3]
-            )
+    if instance.type == 'Demo':
+        with open(instance.file.name, newline='') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                Demo.objects.create(
+                    load=instance,
+                    iris=row[4],
+                    sepal_length=row[0],
+                    sepal_width=row[1],
+                    petal_length=row[2],
+                    petal_width=row[3]
+                )
+
 
 class Demo(models.Model):
     IRISES = (
@@ -61,3 +63,6 @@ class PredictForm(forms.ModelForm):
     class Meta:
         model = Demo
         fields = DEMO_SCHEMA['fields']['vars']
+
+class SettingsForm(forms.Form):
+    load_id = forms.ModelChoiceField(queryset=Load.objects.filter(type='Demo'))

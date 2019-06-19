@@ -11,3 +11,11 @@ class Load(models.Model):
 
     def __str__(self):
         return self.title
+
+class Settings(models.Model):
+    module = models.CharField(max_length=100)
+    key = models.CharField(max_length=100)
+    value = models.TextField()
+
+    def __str__(self):
+        return self.module + '.' + self.key + '=' + self.value

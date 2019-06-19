@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from app.forms import LoadForm
-from .models import Demo, DEMO_SCHEMA, PredictForm
+from app.models import Settings
+from .models import Demo, DEMO_SCHEMA, PredictForm, SettingsForm
 from django.contrib.auth.decorators import login_required
 from app.data import scatterplot, fit, parse_form
 
@@ -20,10 +21,20 @@ def load(request):
 
 @login_required
 def settings(request):
-    return render(request, 'demo/settings.html', {})
+    if request.method == "POST":
+        form = SettingsForm(request.POST)
+        if form.is_valid():
+            load_id = form.cleaned_data['load_id']
+            Settings.objects.update_or_create(module='Demo', key='load_id', defaults = {'value': load_id.id})
+    else:
+        current = Settings.objects.get(module='Demo', key='load_id').value
+        form = SettingsForm(initial={'load_id': current})
+    return render(request, 'demo/settings.html', {'form': form})
 
 @login_required
-def graph(request, pk):
+def graph(request, pk=0):
+    if pk == 0:
+        pk = Settings.objects.get(module='Demo', key='load_id').value
     data1 = Demo.objects.filter(load_id=pk, iris='Iris-setosa')
     data2 = Demo.objects.filter(load_id=pk, iris='Iris-versicolor')
     data3 = Demo.objects.filter(load_id=pk, iris='Iris-virginica')
@@ -31,16 +42,20 @@ def graph(request, pk):
     return render(request, 'demo/graph.html', {'graph': graph})
 
 @login_required
-def view(request, pk):
+def view(request, pk=0):
+    if pk == 0:
+        pk = Settings.objects.get(module='Demo', key='load_id').value
     data = Demo.objects.filter(load_id=pk)
     return render(request, 'demo/view.html', {'data': data})
 
 @login_required
-def analyze(request, pk):
+def analyze(request, pk=0):
     result = 'Input data to predict'
     if request.method == "POST":
         form = PredictForm(request.POST)
         if form.is_valid():
+            if pk == 0:
+                pk = Settings.objects.get(module='Demo', key='load_id').value
             data = Demo.objects.filter(load_id=pk)
             predictor = fit(data, DEMO_SCHEMA)
             # result_ = predictor.predict([[4.9, 4, 1, 0.4]])
