@@ -6,6 +6,7 @@ from django import forms
 import csv
 
 DEMO_SCHEMA = {
+    'moduleName': 'Demo',
     'fields': {
         'target': 'iris',
         'vars': ('sepal_length', 'sepal_width', 'petal_length', 'petal_width'),

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from app.data import scatterplot, fit, parse_form
 from django.urls import reverse_lazy
 
+
 @login_required(login_url=reverse_lazy('login'))
 def load(request):
     if request.method == "POST":
@@ -58,7 +59,7 @@ def analyze(request, pk=0):
             if pk == 0:
                 pk = Settings.objects.get(module='Demo', key='load_id').value
             data = Demo.objects.filter(load_id=pk)
-            predictor = fit(data, DEMO_SCHEMA)
+            predictor = fit(data, DEMO_SCHEMA, pk)
             # result_ = predictor.predict([[4.9, 4, 1, 0.4]])
             prepare_data = parse_form(form, DEMO_SCHEMA)
             result_ = predictor.predict(prepare_data)

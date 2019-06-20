@@ -2,6 +2,9 @@ from plotly.offline import plot
 import plotly.graph_objs as go
 import numpy as np
 from sklearn.naive_bayes import GaussianNB
+from sklearn.externals import joblib
+import os.path
+
 
 def scatterplot(data, schema):
     data_ = []
@@ -48,10 +51,15 @@ def prepare_data(data, schema):
     return np.array(x), np.array(y)
 
 
-def fit(data, schema):
-    clf = GaussianNB()
-    dataX, dataY = prepare_data(data, schema)
-    clf.fit(dataX, dataY)
+def fit(data, schema, pk):
+    filename = 'fits.dumps/' + schema['moduleName'] + '_' + pk + '.pkl'
+    if os.path.exists(filename):
+        clf = joblib.load(filename)
+    else:
+        clf = GaussianNB()
+        dataX, dataY = prepare_data(data, schema)
+        clf.fit(dataX, dataY)
+        joblib.dump(clf, filename)
     return clf
 
 
