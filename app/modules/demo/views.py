@@ -16,10 +16,12 @@ def load(request):
             post.author = request.user
             post.type = 'Demo'
             post.save()
-            return redirect('demo-view', pk=post.pk)
+            Settings.objects.get_or_create(module='Demo', key='load_id', defaults = {'value': post.id})
+            return redirect('demo-view_', pk=post.pk)
     else:
         form = LoadForm()
     return render(request, 'demo/load.html', {'form': form})
+
 
 @login_required(login_url=reverse_lazy('login'))
 def settings(request):
@@ -33,6 +35,7 @@ def settings(request):
         form = SettingsForm(initial={'load_id': current})
     return render(request, 'demo/settings.html', {'form': form})
 
+
 @login_required(login_url=reverse_lazy('login'))
 def graph(request, pk=0):
     if pk == 0:
@@ -43,12 +46,14 @@ def graph(request, pk=0):
     graph = scatterplot({'Iris-setosa': data1, 'Iris-versicolor': data2, 'Iris-virginica': data3}, DEMO_SCHEMA)
     return render(request, 'demo/graph.html', {'graph': graph})
 
+
 @login_required(login_url=reverse_lazy('login'))
 def view(request, pk=0):
     if pk == 0:
         pk = Settings.objects.get(module='Demo', key='load_id').value
     data = Demo.objects.filter(load_id=pk)
     return render(request, 'demo/view.html', {'data': data})
+
 
 @login_required(login_url=reverse_lazy('login'))
 def analyze(request, pk=0):
