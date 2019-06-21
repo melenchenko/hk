@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from graphs import views
 
 urlpatterns = [
-    path('graph/', views.graph, name='graph'),
+    path('', views.graph, name='graph'),
 ]
