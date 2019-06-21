@@ -15,4 +15,4 @@ build/
 tests/report/
 venv/
 .idea
-uploads/*
+uploads/iris*
