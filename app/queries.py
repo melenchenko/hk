@@ -116,7 +116,7 @@ def beneficiary_by_income(need_income = [], need_all = False):
     return result
 
 
-def get_persons(payments_only = True):
+def get_persons(payments_only = True, need_where = [], need_join = []):
     if payments_only:
         query = '''SELECT DISTINCT p.* FROM app_person p
         INNER JOIN app_payment pay ON (p.id=pay.person_id)'''
@@ -138,4 +138,63 @@ def income_type():
         result[person.main_income_type_id]['sum'] += person.month_income
     for income in incomes:
         result[income.id]['percent'] = (str(round(100 * result[income.id]['sum'] / sum)) if sum > 0 else '0') + '%'
+    return result
+
+
+def gorod_selo():
+    persons_all_query = '''SELECT DISTINCT p.id, s.type, p.work_status
+        FROM app_person p 
+        INNER JOIN app_city s ON (s.id=p.city_id)
+        WHERE '''
+    persons_with_payments_query = '''SELECT DISTINCT p.id, s.type, p.work_status
+        FROM app_person p 
+        INNER JOIN app_city s ON (s.id=p.city_id)
+        INNER JOIN app_payment pay ON (p.id=pay.person_id)
+        WHERE '''
+    result = []
+    for age in AGES:
+        age_query = AGE_NUMBER + '>= ' + str(age[0]) + ' AND ' + AGE_NUMBER + '< ' + str(age[1])
+        query = persons_all_query + age_query
+        persons_all = Person.objects.raw(query)
+        all = {
+            'work_city': 0,
+            'work_village': 0,
+            'nowork_city': 0,
+            'nowork_village': 0,
+        }
+        for person in persons_all:
+            if (person.type == 1):
+                if (person.work_status == 1):
+                    all['work_city'] += 1
+                else:
+                    all['nowork_city'] += 1
+            else:
+                if (person.work_status == 1):
+                    all['work_village'] += 1
+                else:
+                    all['nowork_village'] += 1
+        query = persons_with_payments_query + age_query
+        persons_with_payments = Person.objects.raw(query)
+        with_payments = {
+            'work_city': 0,
+            'work_village': 0,
+            'nowork_city': 0,
+            'nowork_village': 0,
+        }
+        for person in persons_with_payments:
+            if (person.type == 1):
+                if (person.work_status == 1):
+                    with_payments['work_city'] += 1
+                else:
+                    with_payments['nowork_city'] += 1
+            else:
+                if (person.work_status == 1):
+                    with_payments['work_village'] += 1
+                else:
+                    with_payments['nowork_village'] += 1
+        result.append({
+            'age': age,
+            'all': all,
+            'with_payments': with_payments,
+        })
     return result

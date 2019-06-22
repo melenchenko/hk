@@ -76,7 +76,7 @@ class Person(models.Model):
     month_income = models.DecimalField(max_digits=20, decimal_places=2, blank=True)
     gender = models.PositiveSmallIntegerField(default=0)
     health_status = models.IntegerField(default=0)
-    work_status = models.IntegerField(default=0) #0 - безработный, 1 - пенсионер, 2 - школьник и т.д.
+    work_status = models.IntegerField(default=0) #0 - безработный, 1 - работающий, 3 - пенсионер, 2 - школьник и т.д.
     snils = models.CharField(max_length=50, blank=True, default='')
     suprug = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_suprug', default=None, null=True)
     main_income_type = models.ForeignKey(IncomeType, on_delete=models.CASCADE, blank=True, default=None, null=True)
