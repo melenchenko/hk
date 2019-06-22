@@ -16,12 +16,18 @@ class Load(models.Model):
 class Region(models.Model):
     name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
+
 
 class City(models.Model):
     name = models.CharField(max_length=100)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
     population = models.IntegerField(default=100000)
     type = models.PositiveSmallIntegerField(default=1) #1 - город, 2 - село
+
+    def __str__(self):
+        return self.name
 
 
 class Settings(models.Model):
