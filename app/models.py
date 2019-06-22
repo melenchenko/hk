@@ -40,11 +40,13 @@ class Person(models.Model):
     birthday = models.DateField(blank=True)
     deathday = models.DateField(blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    mother = models.ForeignKey('self', on_delete=models.CASCADE, blank=True)
-    #father = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='father')
-    city = models.ForeignKey(Family, on_delete=models.CASCADE)
+    mother = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_mother', default='')
+    father = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_father', default='')
+    family = models.ForeignKey(Family, on_delete=models.CASCADE, blank=True, default='')
     month_income = models.DecimalField(max_digits=20, decimal_places=2, blank=True)
     gender = models.PositiveSmallIntegerField(default=0)
+    health_status = models.IntegerField(default=0)
+    work_status = models.IntegerField(default=0) #0 - безработный, 1 - пенсионер, 2 - школьник и т.д.
 
     def __str__(self):
         return self.fullname
@@ -83,4 +85,4 @@ class Payment(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     payer = models.ForeignKey(Payer, on_delete=models.CASCADE)
     payment_date = models.DateField()
-    for_whom = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, related_name='for_whom')
+    for_whom = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, related_name='_for_whom')

@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Load
+from .models import *
 
-admin.site.register(Load)
+admin.site.register([Load, Person, Payment, Payer, PayerType, PaymentType, Family, SpecialAccount, SpecialAccountType, City, Region])
