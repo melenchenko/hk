@@ -42,19 +42,26 @@ def dash(request):
     plot_chart1 = plot(gr.chart_left_center(), output_type='div', include_plotlyjs=False)
 
     # Линии в центре справа
-    plot_lines1 = plot(gr.lines_right_center(), output_type='div', include_plotlyjs=False)
 
+    pl0, pl1 = gr.lines_right_center()
+    dh0, dh1 = gr.dohg()
+    plot_lines0 = plot(pl0, output_type='div', include_plotlyjs=True)
+    plot_lines1 = plot(pl1, output_type='div', include_plotlyjs=False)
+    dohod0 = plot(dh0, output_type='div', include_plotlyjs=True)
+    dohod1 = plot(dh1, output_type='div', include_plotlyjs=False)
     # Социальные группы внизу
     social = dict(name='Социальные группы', groups=gr.groups())
 
     # Регионы внизу
     region = dict(name="Регионы", groups=gr.regions())
+    chart_doh = plot(gr.chart_doh(), output_type='div', include_plotlyjs=True)
 
     # Представление на графике
     data = {'name': 'Название DASHBOARD', 'title': 'Заглавие',
             'card1': card1.to_dict(), 'card2': card2.to_dict(), 'card3': card3.to_dict(), 'card4': card4.to_dict(),
             'table': table, 'histogram': histogram,
-            'plot_chart1': plot_chart1, 'plot_lines1': plot_lines1, 'social': social, 'region': region,
+            'plot_chart1': plot_chart1, 'plot_lines1': plot_lines1, 'plot_lines0': plot_lines0,
+            'social': social, 'region': region, 'chart_doh': chart_doh, 'dohod0': dohod0, 'dohod1': dohod1,
             }
-    # assert False
+    #assert False
     return render(request, 'dash_board.html', context=data)
