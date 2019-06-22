@@ -1,4 +1,4 @@
-from .models import Person, Payment, PaymentType
+from .models import Person, Payment, PaymentType, IncomeType
 import datetime
 
 
@@ -70,7 +70,7 @@ def person_count(need_age = [], need_all = False):
     return result
 
 
-def payment_sum(need_data = False):
+def payment_sum():
     result = []
     query = '''SELECT pt.id, SUM(p.payment_sum) as s, pt.name 
         FROM app_payment p 
@@ -113,4 +113,29 @@ def beneficiary_by_income(need_income = [], need_all = False):
             'with_payments': persons_with_payments_count,
             'percent': percent
         })
+    return result
+
+
+def get_persons(payments_only = True):
+    if payments_only:
+        query = '''SELECT DISTINCT p.* FROM app_person p
+        INNER JOIN app_payment pay ON (p.id=pay.person_id)'''
+    else:
+        query = 'SELECT * FROM app_person'
+    return Person.objects.raw(query)
+
+
+def income_type():
+    persons = get_persons()
+    incomes = IncomeType.objects.all()
+    sum = 0
+    result = {}
+    for person in persons:
+        sum = sum + person.month_income
+    for income in incomes:
+        result[income.id] = {'name': income.name, 'sum': 0}
+    for person in persons:
+        result[person.main_income_type_id]['sum'] += person.month_income
+    for income in incomes:
+        result[income.id]['percent'] = (str(round(100 * result[income.id]['sum'] / sum)) if sum > 0 else '0') + '%'
     return result
