@@ -37,8 +37,16 @@ class Settings(models.Model):
         return self.module + '.' + self.key + '=' + self.value
 
 
+class FamilyPriznak(models.Model):
+    name = models.CharField(max_length=200)
+
+
 class Family(models.Model):
-    pass
+    fpriznak = models.ForeignKey(FamilyPriznak, on_delete=models.CASCADE, blank=True, default='')
+
+
+class Priznak(models.Model):
+    name = models.CharField(max_length=200)
 
 
 class Person(models.Model):
@@ -53,9 +61,25 @@ class Person(models.Model):
     gender = models.PositiveSmallIntegerField(default=0)
     health_status = models.IntegerField(default=0)
     work_status = models.IntegerField(default=0) #0 - безработный, 1 - пенсионер, 2 - школьник и т.д.
+    snils = models.CharField(max_length=50, blank=True, default='')
+    suprug = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_suprug', default='')
 
     def __str__(self):
         return self.fullname
+
+
+class PersonPriznakLink(models.Model):
+    priznak = models.ForeignKey(Priznak, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    start = models.DateField()
+    end = models.DateField(blank=True)
+
+
+class Capital(models.Model):
+    start = models.DateField()
+    end = models.DateField(blank=True)
+    cost = models.DecimalField(max_digits=20, decimal_places=2)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
 
 
 class SpecialAccountType(models.Model):
@@ -68,6 +92,10 @@ class SpecialAccount(models.Model):
     type = models.ForeignKey(SpecialAccountType, on_delete=models.CASCADE)
 
 
+class PayerType(models.Model):
+    name = models.CharField(max_length=500)
+
+
 class PaymentType(models.Model):
     name = models.CharField(max_length=500)
     fixed_sum = models.DecimalField(max_digits=20, decimal_places=2, blank=True)
@@ -75,14 +103,12 @@ class PaymentType(models.Model):
     period = models.CharField(max_length=20, blank=True)
     natural = models.BooleanField(default=False)
     special_account_type = models.ForeignKey(SpecialAccountType, on_delete=models.CASCADE, blank=True, default='')
-
-
-class PayerType(models.Model):
-    name = models.CharField(max_length=500)
+    priznak = models.ForeignKey(Priznak, on_delete=models.CASCADE, blank=True, default='')
+    payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE, blank=True, default='')
 
 
 class Payer(models.Model):
-    payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE)
+    payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE, blank=True)
     name = models.CharField(max_length=500)
 
 
