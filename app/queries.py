@@ -114,3 +114,14 @@ def beneficiary_by_income(need_income = [], need_all = False):
             'percent': percent
         })
     return result
+
+def income_type(need_data = False):
+    result = []
+    query = '''SELECT pt.id, SUM(p.payment_sum) as s, pt.name 
+        FROM app_payment p 
+        INNER JOIN app_paymenttype pt ON (p.payment_type_id = pt.id)
+        GROUP BY pt.id'''
+    payments = Payment.objects.raw(query)
+    for payment in payments:
+        result.append({'name': payment.name, 'sum': payment.s})
+    return result

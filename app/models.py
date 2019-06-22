@@ -61,6 +61,10 @@ class Priznak(models.Model):
         return self.name
 
 
+class IncomeType(models.Model):
+    name = models.CharField(max_length=100, blank=True, default='')
+
+
 class Person(models.Model):
     fullname = models.CharField(max_length=200)
     birthday = models.DateField(blank=True)
@@ -75,6 +79,7 @@ class Person(models.Model):
     work_status = models.IntegerField(default=0) #0 - безработный, 1 - пенсионер, 2 - школьник и т.д.
     snils = models.CharField(max_length=50, blank=True, default='')
     suprug = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_suprug', default=None, null=True)
+    main_income_type = models.ForeignKey(IncomeType, on_delete=models.CASCADE, blank=True, default=None, null=True)
 
     def __str__(self):
         return self.fullname
