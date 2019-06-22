@@ -48,6 +48,7 @@ class FamilyPriznak(models.Model):
 
 class Family(models.Model):
     fpriznak = models.ForeignKey(FamilyPriznak, on_delete=models.CASCADE, blank=True, default=None, null=True)
+    child_count = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
         return self.fpriznak
@@ -80,6 +81,7 @@ class Person(models.Model):
     snils = models.CharField(max_length=50, blank=True, default='')
     suprug = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_suprug', default=None, null=True)
     main_income_type = models.ForeignKey(IncomeType, on_delete=models.CASCADE, blank=True, default=None, null=True)
+    is_child = models.BooleanField(default=False)
 
     def __str__(self):
         return self.fullname

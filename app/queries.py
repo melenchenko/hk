@@ -198,3 +198,6 @@ def gorod_selo():
             'with_payments': with_payments,
         })
     return result
+
+
+
