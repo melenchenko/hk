@@ -148,4 +148,4 @@ class Payment(models.Model):
     for_whom = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, default=None, null=True, related_name='_for_whom')
 
     def __str__(self):
-        return "%s %s" % (self.payer, self.payment_sum)
+        return "%s: %s руб" % (self.payment_type, self.payment_sum)

@@ -3,7 +3,7 @@ import os
 import wget
 import xmltodict
 from datetime import datetime
-from app.models import City, Region, Person
+from app.models import City, Region, Person, Payer, PaymentType, Payment
 import random
 import datetime
 from scipy.stats import truncnorm
@@ -156,15 +156,22 @@ def add_people():
 
 def add_payment():
     persons = Person.objects.all()
-    payment_types = ('Единовременная выплата по рождению ребенка', 'Пособие по уходу за ребенком до 1.5 лет',
-                     'Компенсация роста тарифов ЖКХ', 'Единовременная выплата в связи с ТЖС',
-                     'Пособие по уходу за ребенком до 3-х лет', 'Ежемесячная выплата многодетнам семьям',
-                     'Льгота на оплату ЖП и ЖКУ', 'Пособие по нуждаемости',
-                     'Компенсания в связи с проживанием на загрязненной территории',
-                     'Единовременная выплаты к праздничным датам')
-    payment_list = list()
-    for i in range(random.randint(0, 14)):
-        pay = random.randint(1000, 10000)
-        date = datetime.datetime(year=random.choice(2017,2018), month=random.randint(1, 12), day=random.randint(1, 27))
-        name = random.choice(payment_types)
-        payment_list.append({'pay': pay, 'date': date, 'name': name})
+    payments =PaymentType.objects.all()
+    payers = Payer.objects.all()
+    for person in persons:
+        # С вероятностью 10% он ничего не получает
+        if random.randint(0, 10) >= 9:
+            continue
+        # А тут получает
+        for i in range(random.randint(10, 30)):
+            pay = Payment()
+            pay.person = person
+            pay.payment_sum = random.randint(500, 10000)
+            pay.payer = random.choice(payers)
+            pay.payment_type = random.choice(payments)
+            pay.payment_date = datetime.datetime(year=random.choice((2015, 2016, 2017, 2018)), month=random.randint(1, 12), day=random.randint(1, 27))
+            pay.save()
+
+
+
+
