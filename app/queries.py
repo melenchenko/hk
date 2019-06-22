@@ -30,7 +30,7 @@ def person_count():
         persons_all_count = [0, 0]
         for person in persons_all:
             persons_all_count[person.gender] += 1
-        query = 'SELECT app_person.* FROM app_person INNER JOIN app_payment ON (app_person.id=app_payment.person_id) WHERE ' + age_query
+        query = 'SELECT DISTINCT app_person.id, app_person.gender FROM app_person INNER JOIN app_payment ON (app_person.id=app_payment.person_id) WHERE ' + age_query
         persons_with_payments = Person.objects.raw(query)
         persons_with_payments_count = [0, 0]
         for person in persons_with_payments:
