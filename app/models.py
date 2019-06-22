@@ -177,3 +177,9 @@ class Answers(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, default=None, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, default=None, null=True)
     value = models.IntegerField(default = 0)
+
+    class Meta:
+        unique_together = ('person', 'question')
+
+    def __str__(self):
+        return self.value
