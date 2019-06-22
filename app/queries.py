@@ -1,5 +1,6 @@
-from .models import Person, Payment, PaymentType, IncomeType
+from .models import Person, Payment, PaymentType, IncomeType, Family, City
 import datetime
+from django.db import connection
 
 
 AGES = [
@@ -200,4 +201,32 @@ def gorod_selo():
     return result
 
 
+def child_count_populate():
+    query = 'SELECT COUNT(*) as `child_count`, family_id as `id` FROM app_person GROUP BY family_id'
+    fam = Family.objects.raw(query)
+    for f in fam:
+        query = 'UPDATE app_family SET child_count=' + str(f.child_count) + ' WHERE id=' + str(f.id)
+        with connection.cursor() as cursor:
+            cursor.execute(query)
 
+
+def family_report():
+    families = Family.objects.all()
+    pre = {'gorod': [0]*7, 'selo': [0]*7}
+    for f in families:
+        parents = Person.objects.filter(is_child=0, family_id=f.id)
+        cnt = 0
+        num_parents = 0
+        for parent in parents:
+            if Payment.objects.filter(person_id = parent.id).count():
+                num_parents += 1
+                if parent.city.type == 1:
+                    cnt += 1
+                    if cnt == 2:
+                        break
+        if num_parents > 0:
+            if cnt == 2:
+                pre['gorod'][min(6, f.child_count)] += 1
+            else:
+                pre['selo'][min(6, f.child_count)] += 1
+    return pre #[0] - количество семей без детей, [1] - с одним ребенком, [6] - 6 и более детей
