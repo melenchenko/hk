@@ -40,13 +40,23 @@ class Settings(models.Model):
 class FamilyPriznak(models.Model):
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
 
 class Family(models.Model):
     fpriznak = models.ForeignKey(FamilyPriznak, on_delete=models.CASCADE, blank=True, default='')
 
+    def __str__(self):
+        return self.fpriznak
+
+
 
 class Priznak(models.Model):
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
 
 
 class Person(models.Model):
@@ -74,6 +84,9 @@ class PersonPriznakLink(models.Model):
     start = models.DateField()
     end = models.DateField(blank=True)
 
+    def __str__(self):
+        return self.priznak
+
 
 class Capital(models.Model):
     start = models.DateField()
@@ -85,6 +98,9 @@ class Capital(models.Model):
 class SpecialAccountType(models.Model):
     name = models.CharField(max_length=500)
 
+    def __str__(self):
+        return self.name
+
 
 class SpecialAccount(models.Model):
     data = models.TextField(blank=True)
@@ -94,6 +110,9 @@ class SpecialAccount(models.Model):
 
 class PayerType(models.Model):
     name = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.name
 
 
 class PaymentType(models.Model):
@@ -106,10 +125,16 @@ class PaymentType(models.Model):
     priznak = models.ForeignKey(Priznak, on_delete=models.CASCADE, blank=True, default='')
     payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE, blank=True, default='')
 
+    def __str__(self):
+        return self.name
+
 
 class Payer(models.Model):
     payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE, blank=True)
     name = models.CharField(max_length=500)
+
+    def __str__(self):
+        return "%s" % self.name
 
 
 class Payment(models.Model):
@@ -118,3 +143,6 @@ class Payment(models.Model):
     payer = models.ForeignKey(Payer, on_delete=models.CASCADE)
     payment_date = models.DateField()
     for_whom = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, related_name='_for_whom')
+
+    def __str__(self):
+        return "%s %s" % (self.payer, self.payment_sum)

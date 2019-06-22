@@ -120,29 +120,38 @@ def snils(init=0):
 
 
 
-
 def add_people():
-    sex = random.choice((0, 1))
-    pers = Person()
-    cites = City.objects.all()
+    for i in range(0, 1000):
+        sex = random.choice((0, 1))
+        pers = Person()
+        cites = City.objects.all()
 
-    if sex:
-        # Мужчина
-        name = random.choice(('Иван', 'Федор', 'Никита' 'Николай', 'Сергей', 'Ярослав'))
-        famil = random.choice(('Сергеев', 'Степанов', 'Кац', 'Иванов', 'Петров', 'Башаров'))
-        otch = random.choice(('Иванович', 'Сергеевич', 'Петрович', 'Дмитриевич', 'Никитович', 'Степанович'))
-    else:
-        # Женщина
-        name = random.choice(('Нина', 'Ирина', 'Соня' 'Виктория', 'Светлана', 'Наталья'))
-        famil = random.choice(('Сергеевна', 'Степановна', 'Кац', 'Иванова', 'Петрова', 'Башарова'))
-        otch = random.choice(('Ивановна', 'Сергеевна', 'Петровна', 'Дмитриевна', 'Никитовна', 'Степановна'))
-    pers.fullname = "%s %s %s" % (name, famil, otch)
-    pers.snils = snils()
-    pers.city = random.choice(cites)
-    pers.health_status = random_number.normalvariate(2, 2)
-    pers.birthday = datetime.datetime.now() - datetime.timedelta(days=random_number.normalvariate(45, 40) * 365)
-    pers.deathday = datetime.datetime.now()
-    pers.save()
+        if sex:
+            # Мужчина
+            name = random.choice(('Иван', 'Федор', 'Никита', 'Николай', 'Сергей', 'Ярослав'))
+            famil = random.choice(('Сергеев', 'Степанов', 'Кац', 'Иванов', 'Петров', 'Башаров'))
+            otch = random.choice(('Иванович', 'Сергеевич', 'Петрович', 'Дмитриевич', 'Никитович', 'Степанович'))
+        else:
+            # Женщина
+            name = random.choice(('Нина', 'Ирина', 'Соня', 'Виктория', 'Светлана', 'Наталья'))
+            famil = random.choice(('Сергеевна', 'Степановна', 'Кац', 'Иванова', 'Петрова', 'Башарова'))
+            otch = random.choice(('Ивановна', 'Сергеевна', 'Петровна', 'Дмитриевна', 'Никитовна', 'Степановна'))
+        pers.fullname = "%s %s %s" % (name, famil, otch)
+        pers.snils = snils()
+        pers.city = random.choice(cites)
+        h = random_number.normalvariate(2, 2)
+        if h < 0:
+            h = 0
+        elif h > 3:
+            h = 3
+        pers.health_status = h
+        pers.birthday = datetime.datetime.now() - datetime.timedelta(days=random_number.normalvariate(45, 40) * 365)
+        income = random_number.normalvariate(3000, 1000)
+        if income < 0:
+            income = 0
+        pers.month_income = income
+        pers.gender = sex
+        pers.save()
 
 
 def add_payment():
