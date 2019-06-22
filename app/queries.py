@@ -200,7 +200,7 @@ def gorod_selo():
         })
     return result
 
-
+#запускать асинхронно каждый раз, когда меняется person[family_id] или добавляется новый person
 def child_count_populate():
     query = 'SELECT COUNT(*) as `child_count`, family_id as `id` FROM app_person GROUP BY family_id'
     fam = Family.objects.raw(query)
@@ -225,7 +225,7 @@ def family_report():
                     if cnt == 2:
                         break
         if num_parents > 0:
-            if cnt == 2:
+            if cnt >= 1:
                 pre['gorod'][min(6, f.child_count)] += 1
             else:
                 pre['selo'][min(6, f.child_count)] += 1
