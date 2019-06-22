@@ -1,6 +1,7 @@
 import plotly.graph_objs as go
 import random
 from dashboard.utils import Card
+import app.queries as qu
 
 
 def chart_left_center():
@@ -43,40 +44,64 @@ def chart_left_center():
 
 def lines_right_center():
 
-    trace1 = go.Scatter(
-        x=[x for x in range(1, 10)],
-        y=[random.randint(40, 50) for _ in range(1, 10)],
-        mode='lines+markers',
-        name="'Доход'",
-        hoverinfo='name',
-        line=dict(
-            shape='linear'
-        )
+    data = qu.person_count()
+    # {'age': [0, 18], 'all': [133, 143], 'with_payments': [117, 116], 'percent': ['88%', '81%']
+    x = list()
+    total_women = list()
+    pay_women = list()
+    total_men = list()
+    pay_men = list()
+    persent_men = list()
+    persent_women = list()
+    nopay_women = list()
+    nopay_men = list()
+    for line in data:
+        x.append("%s-%s" % (line['age'][0], line['age'][1]))
+        total_women.append(line['all'][0])
+        total_men.append(line['all'][1])
+        pay_women.append(line['with_payments'][0])
+        pay_men.append(line['with_payments'][1])
+        persent_women.append(line['percent'][0])
+        persent_men.append(line['percent'][1])
+        #nopay_men = line['all'][1] -
+
+    trace1 = go.Bar(
+        x=x,
+        y=total_women,
+        #mode='lines+markers',
+        name="Общее женщин в возрастной группе",
+        #hovertemplate='Женщины: %{y} чел',
+
     )
 
-    trace2 = go.Scatter(
-        x=[x for x in range(1, 10)],
-        y=[random.randint(30, 60) for _ in range(1, 10)],
-        mode='lines+markers',
-        name="'Расход'",
-        hoverinfo='name',
-        line=dict(
-            shape='linear'
-        )
+    trace2 = go.Bar(
+        x=x,
+        y=total_men,
+        #mode='lines+markers',
+        name="Общее мужчин в возрастной группе",
+        #hovertemplate='Мужчины: %{y} чел',
+
     )
 
-    trace3 = go.Scatter(
-        x=[x for x in range(1, 10)],
-        y=[random.randint(5, 15) for _ in range(1, 10)],
-        mode='lines+markers',
-        name="'Остаток'",
-        hoverinfo='name',
-        line=dict(
-            shape='linear'
-        )
+    trace3 = go.Bar(
+        x=x,
+        y=pay_women,
+        #mode='lines+markers',
+        name="Женщины, получатели соцпособий",
+        #hovertemplate='Женщины: %{y} чел',
+
     )
 
-    data = [trace1, trace2, trace3]
+    trace4 = go.Bar(
+        x=x,
+        y=pay_men,
+        #mode='lines+markers',
+        name="Мужчины, получатели соцпособий",
+        #hovertemplate='Мужчины: %{y} чел',
+
+    )
+
+    data = [trace1, trace2, trace3, trace4]
     layout = dict(
         legend=dict(
             y=0.5,
@@ -84,7 +109,8 @@ def lines_right_center():
             font=dict(
                 size=16
             )
-        )
+        ),
+        barmode='stack',
     )
     fig = dict(data=data, layout=layout)
     return fig
