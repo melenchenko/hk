@@ -142,7 +142,20 @@ def add_people():
     pers.health_status = random_number.normalvariate(2, 2)
     pers.birthday = datetime.datetime.now() - datetime.timedelta(days=random_number.normalvariate(45, 40) * 365)
     pers.deathday = datetime.datetime.now()
-    pers.father = 0
-    pers.mother = 0
-    pers.family = 0
     pers.save()
+
+
+def add_payment():
+    persons = Person.objects.all()
+    payment_types = ('Единовременная выплата по рождению ребенка', 'Пособие по уходу за ребенком до 1.5 лет',
+                     'Компенсация роста тарифов ЖКХ', 'Единовременная выплата в связи с ТЖС',
+                     'Пособие по уходу за ребенком до 3-х лет', 'Ежемесячная выплата многодетнам семьям',
+                     'Льгота на оплату ЖП и ЖКУ', 'Пособие по нуждаемости',
+                     'Компенсания в связи с проживанием на загрязненной территории',
+                     'Единовременная выплаты к праздничным датам')
+    payment_list = list()
+    for i in range(random.randint(0, 14)):
+        pay = random.randint(1000, 10000)
+        date = datetime.datetime(year=random.choice(2017,2018), month=random.randint(1, 12), day=random.randint(1, 27))
+        name = random.choice(payment_types)
+        payment_list.append({'pay': pay, 'date': date, 'name': name})
