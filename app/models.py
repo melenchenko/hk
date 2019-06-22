@@ -36,7 +36,7 @@ class FamilyPriznak(models.Model):
 
 
 class Family(models.Model):
-    fpriznak = models.ForeignKey(FamilyPriznak, on_delete=models.CASCADE)
+    fpriznak = models.ForeignKey(FamilyPriznak, on_delete=models.CASCADE, blank=True, default='')
 
 
 class Priznak(models.Model):
@@ -55,7 +55,7 @@ class Person(models.Model):
     gender = models.PositiveSmallIntegerField(default=0)
     health_status = models.IntegerField(default=0)
     work_status = models.IntegerField(default=0) #0 - безработный, 1 - пенсионер, 2 - школьник и т.д.
-    snils = models.CharField(max_length=50)
+    snils = models.CharField(max_length=50, blank=True, default='')
     suprug = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_suprug', default='')
 
     def __str__(self):
@@ -97,12 +97,12 @@ class PaymentType(models.Model):
     period = models.CharField(max_length=20, blank=True)
     natural = models.BooleanField(default=False)
     special_account_type = models.ForeignKey(SpecialAccountType, on_delete=models.CASCADE, blank=True, default='')
-    priznak = models.ForeignKey(Priznak, on_delete=models.CASCADE)
-    payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE)
+    priznak = models.ForeignKey(Priznak, on_delete=models.CASCADE, blank=True, default='')
+    payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE, blank=True, default='')
 
 
 class Payer(models.Model):
-    payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE)
+    payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE, blank=True)
     name = models.CharField(max_length=500)
 
 
