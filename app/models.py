@@ -156,3 +156,24 @@ class Payment(models.Model):
 
     def __str__(self):
         return "%s: %s руб" % (self.payment_type, self.payment_sum)
+
+
+class Oprosnik(models.Model):
+    title = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.title
+
+
+class Question(models.Model):
+    text = models.CharField(max_length=200)
+    oprosnik = models.ForeignKey(Oprosnik, on_delete=models.CASCADE, blank=True, default=None, null=True)
+
+    def __str__(self):
+        return self.text
+
+
+class Answers(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, default=None, null=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, default=None, null=True)
+    value = models.IntegerField(default = 0)
