@@ -24,99 +24,27 @@
         <!-- Блок верхних карточек  -->
         <!-- ============================================================== -->
         <div class="ecommerce-widget">
-            <div class="row">
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+             <div class="row">
+                <!-- Возраст и выпляты-->
+                <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
-                        <div class="card-body">
-                            <h5 class="text-muted">{{ card1.name }}</h5>
-                            <div class="metric-value d-inline-block">
-                                <h1 class="mb-1">{{ card1.value }}</h1>
-                            </div>
-                            <div class="metric-label d-inline-block float-right {{ card1.div }} font-weight-bold">
-                                        <span class="icon-circle-small icon-box-xs {{ card1.span }}">
-                                            <i class="fa fa-fw {{ card1.arrow }}"></i></span><span class="ml-1">{{ card1.trend }}</span>
-                            </div>
-                        </div>
+                        <h5 class="card-header">Женщины</h5>
+                        {{ plot_lines0|safe }}
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                 <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
-                        <div class="card-body">
-                            <h5 class="text-muted">{{ card2.name }}</h5>
-                            <div class="metric-value d-inline-block">
-                                <h1 class="mb-1">{{ card2.value }}</h1>
-                            </div>
-                            <div class="metric-label d-inline-block float-right {{ card2.div }} font-weight-bold">
-                                        <span class="icon-circle-small icon-box-xs {{ card2.span }}">
-                                            <i class="fa fa-fw {{ card2.arrow }}"></i></span><span class="ml-1">{{ card2.trend }}</span>
-                            </div>
-                        </div>
+                        <h5 class="card-header">Мужчины</h5>
+                        {{ plot_lines1|safe }}
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="text-muted">{{ card3.name }}</h5>
-                            <div class="metric-value d-inline-block">
-                                <h1 class="mb-1">{{ card3.value }}</h1>
-                            </div>
-                            <div class="metric-label d-inline-block float-right {{ card3.div }} font-weight-bold">
-                                        <span class="icon-circle-small icon-box-xs {{ card3.span }}">
-                                            <i class="fa fa-fw {{ card3.arrow }}"></i></span><span class="ml-1">{{ card3.trend }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="text-muted">{{ card4.name }}</h5>
-                            <div class="metric-value d-inline-block">
-                                <h1 class="mb-1">{{ card4.value }}</h1>
-                            </div>
-                            <div class="metric-label d-inline-block float-right {{ card4.div }} font-weight-bold">
-                                        <span class="icon-circle-small icon-box-xs {{ card4.span }}">
-                                            <i class="fa fa-fw {{ card4.arrow }}"></i></span><span class="ml-1">{{ card4.trend }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Окончание блока карточек -->
 
-            <!-- =========================================== -->
-            <!-- Блок  таблица и гистограмма -->
-            <!-- =========================================== -->
-            <div class="row">
-                <!-- Большая таблица справа -->
-                <div class="col-xl-8 col-lg-12 col-md-6 col-sm-12 col-12">
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
-                        <h5 class="card-header">{{ table.name }}</h5>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead class="bg-light">
-                                    <tr class="border-0">
-                                        {% for header in table.headers %}
-                                        <th class="border-0">{{ header }}</th>
-                                        {% endfor %}
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for line in table.data %}
-                                    <tr>
-                                        {% for i in line %}
-                                        <td>{{ i }}</td>
-                                        {% endfor %}
-                                    </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        {{ histogram|safe }}
                     </div>
                 </div>
-                <!-- Меленькая гистограмма с накоплением слева -->
+
                 <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
                         {{ histogram|safe }}

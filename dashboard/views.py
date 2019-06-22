@@ -42,8 +42,10 @@ def dash(request):
     plot_chart1 = plot(gr.chart_left_center(), output_type='div', include_plotlyjs=False)
 
     # Линии в центре справа
-    plot_lines1 = plot(gr.lines_right_center(), output_type='div', include_plotlyjs=False)
 
+    pl0, pl1 = gr.lines_right_center()
+    plot_lines0 = plot(pl0, output_type='div', include_plotlyjs=True)
+    plot_lines1 = plot(pl1, output_type='div', include_plotlyjs=True)
     # Социальные группы внизу
     social = dict(name='Социальные группы', groups=gr.groups())
 
@@ -54,7 +56,7 @@ def dash(request):
     data = {'name': 'Название DASHBOARD', 'title': 'Заглавие',
             'card1': card1.to_dict(), 'card2': card2.to_dict(), 'card3': card3.to_dict(), 'card4': card4.to_dict(),
             'table': table, 'histogram': histogram,
-            'plot_chart1': plot_chart1, 'plot_lines1': plot_lines1, 'social': social, 'region': region,
+            'plot_chart1': plot_chart1, 'plot_lines1': plot_lines1, 'plot_lines0': plot_lines0, 'social': social, 'region': region,
             }
-    # assert False
+    #assert False
     return render(request, 'dash_board.html', context=data)

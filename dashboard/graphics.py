@@ -63,57 +63,57 @@ def lines_right_center():
         pay_men.append(line['with_payments'][1])
         persent_women.append(line['percent'][0])
         persent_men.append(line['percent'][1])
-        #nopay_men = line['all'][1] -
+        nopay_men.append((line['all'][1] - line['with_payments'][1]))
+        nopay_women.append(line['all'][0] - line['with_payments'][0])
+
 
     trace1 = go.Bar(
         x=x,
-        y=total_women,
-        #mode='lines+markers',
-        name="Общее женщин в возрастной группе",
-        #hovertemplate='Женщины: %{y} чел',
-
+        y=nopay_women,
+        name="Не получают",
     )
 
     trace2 = go.Bar(
         x=x,
-        y=total_men,
-        #mode='lines+markers',
-        name="Общее мужчин в возрастной группе",
-        #hovertemplate='Мужчины: %{y} чел',
-
+        y=nopay_men,
+        name="Не получают",
     )
 
     trace3 = go.Bar(
         x=x,
         y=pay_women,
-        #mode='lines+markers',
-        name="Женщины, получатели соцпособий",
-        #hovertemplate='Женщины: %{y} чел',
-
+        name="Получают",
     )
 
     trace4 = go.Bar(
         x=x,
         y=pay_men,
-        #mode='lines+markers',
-        name="Мужчины, получатели соцпособий",
-        #hovertemplate='Мужчины: %{y} чел',
-
+        name="Получают",
     )
 
-    data = [trace1, trace2, trace3, trace4]
+    data = [trace2, trace4]
     layout = dict(
         legend=dict(
-            y=0.5,
             traceorder='reversed',
             font=dict(
-                size=16
+                size=10
             )
         ),
+        showlegend=False,
         barmode='stack',
+        margin=go.layout.Margin(
+            l=0,
+            r=0,
+            b=0,
+            t=0,
+            pad=4
+        )
     )
-    fig = dict(data=data, layout=layout)
-    return fig
+
+    fig1 = dict(data=data, layout=layout)
+    data = [trace1, trace3]
+    fig2 = dict(data=data, layout=layout)
+    return fig1, fig2
 
 
 def cards():
