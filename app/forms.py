@@ -9,7 +9,7 @@ class LoadForm(forms.ModelForm):
 
 
 class Opros(forms.Form):
-    snils = forms.CharField(max_length=50)
+    snils = forms.CharField(max_length=50, label='СНИЛС')
 
     def __init__(self, *args, **kwargs):
         oprosnik_id = kwargs.pop('oprosnik_id', None)
@@ -18,4 +18,4 @@ class Opros(forms.Form):
             oprosnik_ = Oprosnik.objects.get(id=oprosnik_id)
             questions = Question.objects.filter(oprosnik=oprosnik_)
             for q in questions:
-                self.fields['question_' + str(q.id)] = forms.IntegerField(min_value=1, max_value=5)
+                self.fields['question_' + str(q.id)] = forms.IntegerField(min_value=1, max_value=5, label=q.text)
