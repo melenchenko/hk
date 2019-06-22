@@ -3,7 +3,7 @@ import os
 import wget
 import xmltodict
 from datetime import datetime
-from app.models import City, Region, Person
+from app.models import City, Region, Person, Payer, PaymentType, Payment
 import random
 import datetime
 from scipy.stats import truncnorm
@@ -146,3 +146,26 @@ def add_people():
     pers.mother = 0
     pers.family = 0
     pers.save()
+
+
+def add_payment():
+    persons = Person.objects.all()
+    payments =PaymentType.objects.all()
+    payers = Payer.objects.all()
+    for person in persons:
+        # С вероятностью 10% он ничего не получает
+        if random.randint(0, 10) >= 9:
+            continue
+        # А тут получает
+        for i in range(random.randint(10, 30)):
+            pay = Payment()
+            pay.person = person
+            pay.payment_sum = random.randint(500, 10000)
+            pay.payer = random.choice(payers)
+            pay.payment_type = random.choice(payments)
+            pay.payment_date = datetime.datetime(year=random.choice((2015, 2016, 2017, 2018)), month=random.randint(1, 12), day=random.randint(1, 27))
+            pay.save()
+
+
+
+
