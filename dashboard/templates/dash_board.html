@@ -47,11 +47,47 @@
 
                 <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
-                        {{ histogram|safe }}
+                        <h5 class="card-header">Полученны выплаты</h5>
+                        {{ chart_doh|safe }}
                     </div>
                 </div>
             </div>
             <!-- Окончание блока -->
+
+            <!-- ============================================================== -->
+        <!-- Блок нижних карточек  -->
+        <!-- ============================================================== -->
+        <div class="ecommerce-widget">
+             <div class="row">
+                <!-- Доход-->
+                <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <h5 class="card-header">Доходы. Женщины</h5>
+                        {{ dohod0|safe }}
+                    </div>
+                </div>
+                 <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <h5 class="card-header">Доходы. Мужчины</h5>
+                        {{ dohod1|safe }}
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        {{ histogram|safe }}
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <h5 class="card-header">Доходы</h5>
+                        {{ chart_doh|safe }}
+                    </div>
+                </div>
+            </div>
+            <!-- Окончание блока -->
+
 
 
             <!-- Группа из 2-х графиков в центре -->
