@@ -5,7 +5,14 @@ import xmltodict
 from datetime import datetime
 from app.models import City, Region, Person
 import random
+import datetime
+from scipy.stats import truncnorm
+import random as random_number
 
+
+def get_truncated_normal(mean=0, sd=1, low=0, upp=10):
+    return truncnorm.cnorm(
+        (low - mean) / sd, (upp - mean) / sd, loc=mean, scale=sd)
 
 
 def to_date(date_str):
@@ -112,18 +119,30 @@ def snils(init=0):
     return res
 
 
+
+
 def add_people():
-    sex = random.choice(0, 1)
+    sex = random.choice((0, 1))
     pers = Person()
+    cites = City.objects.all()
 
     if sex:
         # Мужчина
-        name = random.choice('Иван', 'Федор', 'Никита' 'Николай', 'Сергей', 'Ярослав')
-        famil = random.choice('Сергеев', 'Степанов', 'Кац', 'Иванов', 'Петров', 'Башаров')
-        otch = random.choice('Иванович', 'Сергеевич', 'Петрович', 'Дмитриевич', 'Никитович', 'Степанович')
+        name = random.choice(('Иван', 'Федор', 'Никита' 'Николай', 'Сергей', 'Ярослав'))
+        famil = random.choice(('Сергеев', 'Степанов', 'Кац', 'Иванов', 'Петров', 'Башаров'))
+        otch = random.choice(('Иванович', 'Сергеевич', 'Петрович', 'Дмитриевич', 'Никитович', 'Степанович'))
     else:
         # Женщина
-        name = random.choice('Нина', 'Ирина', 'Соня' 'Виктория', 'Светлана', 'Наталья')
-        famil = random.choice('Сергеевна', 'Степановна', 'Кац', 'Иванова', 'Петрова', 'Башарова')
-        otch = random.choice('Ивановна', 'Сергеевна', 'Петровна', 'Дмитриевна', 'Никитовна', 'Степановна')
-    pers.fullname = ' '.join((name, famil, otch))
+        name = random.choice(('Нина', 'Ирина', 'Соня' 'Виктория', 'Светлана', 'Наталья'))
+        famil = random.choice(('Сергеевна', 'Степановна', 'Кац', 'Иванова', 'Петрова', 'Башарова'))
+        otch = random.choice(('Ивановна', 'Сергеевна', 'Петровна', 'Дмитриевна', 'Никитовна', 'Степановна'))
+    pers.fullname = "%s %s %s" % (name, famil, otch)
+    pers.snils = snils()
+    pers.city = random.choice(cites)
+    pers.health_status = random_number.normalvariate(2, 2)
+    pers.birthday = datetime.datetime.now() - datetime.timedelta(days=random_number.normalvariate(45, 40) * 365)
+    pers.deathday = datetime.datetime.now()
+    pers.father = 0
+    pers.mother = 0
+    pers.family = 0
+    pers.save()
