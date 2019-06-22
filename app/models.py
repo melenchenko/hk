@@ -23,6 +23,8 @@ class Region(models.Model):
 class City(models.Model):
     name = models.CharField(max_length=100)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
+    population = models.IntegerField(default=100000)
+    type = models.PositiveSmallIntegerField(default=1) #1 - город, 2 - село
 
     def __str__(self):
         return self.name
@@ -45,7 +47,7 @@ class FamilyPriznak(models.Model):
 
 
 class Family(models.Model):
-    fpriznak = models.ForeignKey(FamilyPriznak, on_delete=models.CASCADE, blank=True, default='')
+    fpriznak = models.ForeignKey(FamilyPriznak, on_delete=models.CASCADE, blank=True, default=None, null=True)
 
     def __str__(self):
         return self.fpriznak
@@ -62,17 +64,17 @@ class Priznak(models.Model):
 class Person(models.Model):
     fullname = models.CharField(max_length=200)
     birthday = models.DateField(blank=True)
-    deathday = models.DateField(blank=True)
+    deathday = models.DateField(blank=True, null=True, default=None)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    mother = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_mother', default='')
-    father = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_father', default='')
-    family = models.ForeignKey(Family, on_delete=models.CASCADE, blank=True, default='')
+    mother = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_mother', default=None, null=True)
+    father = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_father', default=None, null=True)
+    family = models.ForeignKey(Family, on_delete=models.CASCADE, blank=True, default=None, null=True)
     month_income = models.DecimalField(max_digits=20, decimal_places=2, blank=True)
     gender = models.PositiveSmallIntegerField(default=0)
     health_status = models.IntegerField(default=0)
     work_status = models.IntegerField(default=0) #0 - безработный, 1 - пенсионер, 2 - школьник и т.д.
     snils = models.CharField(max_length=50, blank=True, default='')
-    suprug = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_suprug', default='')
+    suprug = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_suprug', default=None, null=True)
 
     def __str__(self):
         return self.fullname
@@ -117,13 +119,13 @@ class PayerType(models.Model):
 
 class PaymentType(models.Model):
     name = models.CharField(max_length=500)
-    fixed_sum = models.DecimalField(max_digits=20, decimal_places=2, blank=True)
+    fixed_sum = models.DecimalField(max_digits=20, decimal_places=2, blank=True, default=None, null=True)
     is_regular = models.BooleanField(default=False)
     period = models.CharField(max_length=20, blank=True)
     natural = models.BooleanField(default=False)
-    special_account_type = models.ForeignKey(SpecialAccountType, on_delete=models.CASCADE, blank=True, default='')
-    priznak = models.ForeignKey(Priznak, on_delete=models.CASCADE, blank=True, default='')
-    payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE, blank=True, default='')
+    special_account_type = models.ForeignKey(SpecialAccountType, on_delete=models.CASCADE, blank=True, default=None, null=True)
+    priznak = models.ForeignKey(Priznak, on_delete=models.CASCADE, blank=True, default=None, null=True)
+    payer_type = models.ForeignKey(PayerType, on_delete=models.CASCADE, blank=True, default=None, null=True)
 
     def __str__(self):
         return self.name
@@ -141,8 +143,9 @@ class Payment(models.Model):
     payment_sum = models.DecimalField(max_digits=20, decimal_places=2)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     payer = models.ForeignKey(Payer, on_delete=models.CASCADE)
+    payment_type = models.ForeignKey(PaymentType, on_delete=models.CASCADE, blank=True, default=None, null=True)
     payment_date = models.DateField()
-    for_whom = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, related_name='_for_whom')
+    for_whom = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, default=None, null=True, related_name='_for_whom')
 
     def __str__(self):
         return "%s %s" % (self.payer, self.payment_sum)
