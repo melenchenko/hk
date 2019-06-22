@@ -116,20 +116,26 @@ def beneficiary_by_income(need_income = [], need_all = False):
     return result
 
 
+def get_persons(payments_only = True):
+    if payments_only:
+        query = '''SELECT DISTINCT p.* FROM app_person p
+        INNER JOIN app_payment pay ON (p.id=pay.person_id)'''
+    else:
+        query = 'SELECT * FROM app_person'
+    return Person.objects.raw(query)
+
+
 def income_type():
-    result = []
-    query = '''SELECT it.id, SUM(p.month_income) as s, it.name 
-        FROM app_person p 
-        INNER JOIN app_incometype it ON (p.main_income_type_id = it.id)
-        GROUP BY it.id'''
-    incomes = IncomeType.objects.raw(query)
+    persons = get_persons()
+    incomes = IncomeType.objects.all()
     sum = 0
+    result = {}
+    for person in persons:
+        sum = sum + person.month_income
     for income in incomes:
-        sum = sum + income.s
+        result[income.id] = {'name': income.name, 'sum': 0}
+    for person in persons:
+        result[person.main_income_type_id]['sum'] += person.month_income
     for income in incomes:
-        result.append({
-            'name': income.name,
-            'sum': income.s,
-            'percent': (str(round(100 * income.s / sum)) if sum > 0 else '0') + '%'
-        })
+        result[income.id]['percent'] = (str(round(100 * result[income.id]['sum'] / sum)) if sum > 0 else '0') + '%'
     return result
