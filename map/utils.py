@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def town():
-    df = pd.read_csv('_csv/city_rus.csv')
+    df = pd.read_csv('csv/city_rus.csv')
     df.head()
     df['text'] = df['name'] + '<br>Население ' + (df['pop'] / 1e3).astype(str) + ' тыс'
     limits = [(0, 1e4), (1e4+1, 1e5), (1e5+1, 5e5), (5e5+1, 1e6), (1e6+1, 1e8)]

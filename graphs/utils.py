@@ -34,7 +34,7 @@ def mnkGP1(x, y):
 def big_graph():
     x1 = list()
     y1 = list()
-    with open('_csv/speed.txt') as csvfile:
+    with open('csv/speed.txt') as csvfile:
         for line in csv.reader(csvfile, delimiter=';'):
             x1.append(line[0])
             y1.append(float(line[2]))
