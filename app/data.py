@@ -48,7 +48,7 @@ def prepare_data(data, schema):
         for field_name in schema['fields']['vars']:
             attr = getattr(item, field_name)
             if field_name in schema['fields']['decorators']:
-                attr = schema['fields']['decorators'][field_name](attr)
+                attr = schema['fields']['decorators'][field_name](attr, True)
             x_.append(attr)
         x.append(x_)
         y.append(getattr(item, schema['fields']['target']))

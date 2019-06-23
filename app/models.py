@@ -65,6 +65,9 @@ class Priznak(models.Model):
 class IncomeType(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
 
+    def __str__(self):
+        return self.name
+
 
 class Person(models.Model):
     fullname = models.CharField(max_length=200)

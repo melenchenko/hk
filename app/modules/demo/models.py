@@ -1,5 +1,5 @@
 from django.db import models
-from app.models import Load, Payment, Person, Payer, PaymentType
+from app.models import Load, Payment, Person, Payer, PaymentType, City, IncomeType
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django import forms
@@ -39,7 +39,8 @@ DEMO_SCHEMA_priz3 = {
                  'birthday',
                  'month_income', 'city_id', 'gender', 'work_status', "main_income_type_id", "child_count", "_sum", "_cnt"),
         'decorators': {
-            'birthday': lambda d: math.floor((datetime.date.today() - d).days/365.2425)
+            'birthday': lambda d, skip_id = False: math.floor((datetime.date.today() - d).days/365.2425),
+            'city_id': lambda c, skip_id = False: c if skip_id else getattr(c, 'id'),
         }
     }
 }
@@ -92,10 +93,10 @@ class Priz3Form(forms.Form):
     _cap_count = forms.FloatField(min_value=0)
     birthday = forms.DateField()
     month_income = forms.FloatField(min_value=0)
-    city_id = forms.IntegerField(min_value=1)
+    city_id = forms.ModelChoiceField(City.objects.all())
     gender = forms.IntegerField(min_value=0, max_value=1)
     work_status = forms.IntegerField(min_value=0, max_value=3)
-    main_income_type_id = forms.IntegerField(min_value=1, max_value=9)
+    main_income_type_id = forms.ModelChoiceField(IncomeType.objects.all())
     child_count = forms.IntegerField(min_value=0, max_value=10)
     _sum = forms.FloatField(min_value=0)
     _cnt = forms.IntegerField(min_value=0)
