@@ -230,3 +230,4 @@ def family_report():
             else:
                 pre['selo'][min(6, f.child_count)] += 1
     return pre #[0] - количество семей без детей, [1] - с одним ребенком, [6] - 6 и более детей
+
