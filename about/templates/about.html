@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid dashboard-content ">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+
+        <!-- Описание -->
+        <h5 class="card-header">Команда проекта</h5>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered first">
+                    <thead>
+                    <tr class="border-0">
+                        <th>ФИО</th>
+                        <th>Роль на проекте</th>
+                        <th>Город</th>
+                        <th>email</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>Роман Меленченко</td>
+                        <td>Team Leader</td>
+                        <td>Смоленск</td>
+                        <td>melenchenko@yandex.ru</td>
+                    </tr>
+                    <tr>
+                        <td>Ольга Серегина</td>
+                        <td>Рroduct Owner</td>
+                        <td>Рязань</td>
+                        <td>seregina-olga@mail.ru</td>
+                    </tr>
+                    <tr>
+                        <td>Роман Шершнёв</td>
+                        <td>Data Science</td>
+                        <td>Обнинск</td>
+                        <td>RVShershnev@yandex.ru</td>
+                    </tr>
+                    <tr>
+                        <td>Алексей Простаков</td>
+                        <td>Back-end developer</td>
+                        <td>Тула</td>
+                        <td>aleksey.prostakov@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <td>Людмила Максимова</td>
+                        <td>Front-end developer</td>
+                        <td>Смоленск</td>
+                        <td>lyuniko@rambler.ru</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+            </div>
+    </div>
+
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <!-- Фото -->
+        <br/>
+        <img src="{% static "foto.jpg" %}" width="100%";>
+    </div>
+</div>
+{% endblock content %}

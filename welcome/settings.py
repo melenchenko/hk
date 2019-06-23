@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'tables',
     'app',
     'person',
+    'about',
 ]
 
 MIDDLEWARE = [

@@ -24,4 +24,5 @@ urlpatterns = [
     path('map/', include('map.urls')),
     path('table/', include('tables.urls')),
     path('graph/', include('graphs.urls')),
+    path('about/', include('about.urls')),
 ]
