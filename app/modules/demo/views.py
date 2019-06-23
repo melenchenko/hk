@@ -97,4 +97,4 @@ def analyze_bigdata(request, type):
             result = result_[0]
     else:
         form = BIGDATA_CONFIG[type]['form']()
-    return render(request, 'demo/analyze.html', {'result': result, 'form': form})
+    return render(request, 'demo/analyze.html', {'result': result, 'form': form, 'title': BIGDATA_CONFIG[type]['schema']['title']})

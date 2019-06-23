@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
-
+<h2 style="margin-top:50px;margin-left:20px;">{{ title }}</h2>
 <form method="POST" class="post-form">{% csrf_token %}
 {#{{ result }}#}
     <link rel="stylesheet" href="{% static "assets/vendor/bootstrap/css/bootstrap.min.css" %}">

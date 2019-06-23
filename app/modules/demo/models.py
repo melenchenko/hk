@@ -33,13 +33,14 @@ DEMO_SCHEMA = {
 DEMO_SCHEMA_priz3 = {
     'moduleName': 'DEMO_SCHEMA_priz3',
     'modelName': 'knn',
+    'title': 'Прогноз: определение принадлежности к группе "Человек, попавший в трудную жизненную ситуацию"',
     'fields': {
         'target': '_priz3',
         'vars': ('_cap_count',
                  'birthday',
                  'month_income', 'city_id', 'gender', 'work_status', "main_income_type_id", "child_count", "_sum", "_cnt"),
         'decorators': {
-            'birthday': lambda d, skip_id = False: math.floor((datetime.date.today() - d).days/365.2425),
+            'birthday': lambda d, skip_id = False: math.floor((datetime.date.today() - d).days / 365.2425),
             'city_id': lambda c, skip_id = False: c if skip_id else getattr(c, 'id'),
             'main_income_type': lambda c, skip_id = False: c if skip_id else getattr(c, 'id'),
         }
