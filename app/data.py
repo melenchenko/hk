@@ -2,6 +2,7 @@ from plotly.offline import plot
 import plotly.graph_objs as go
 import numpy as np
 from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.externals import joblib
 import os.path
 
@@ -45,18 +46,24 @@ def prepare_data(data, schema):
     for item in data:
         x_ = []
         for field_name in schema['fields']['vars']:
-            x_.append(getattr(item, field_name))
+            attr = getattr(item, field_name)
+            if field_name in schema['fields']['decorators']:
+                attr = schema['fields']['decorators'][field_name](attr)
+            x_.append(attr)
         x.append(x_)
         y.append(getattr(item, schema['fields']['target']))
     return np.array(x), np.array(y)
 
 
-def fit(data, schema, pk):
-    filename = 'fits.dumps/' + schema['moduleName'] + '_' + pk + '.pkl'
+def fit(data, schema, pk=0):
+    filename = 'fits.dumps/' + schema['moduleName'] + '_' + schema['modelName'] + str(pk) +  '.pkl'
     if os.path.exists(filename):
         clf = joblib.load(filename)
     else:
-        clf = GaussianNB()
+        if schema['modelName'] == 'gauss':
+            clf = GaussianNB()
+        elif schema['modelName'] == 'knn':
+            clf = KNeighborsClassifier()
         dataX, dataY = prepare_data(data, schema)
         clf.fit(dataX, dataY)
         joblib.dump(clf, filename)
@@ -66,5 +73,8 @@ def fit(data, schema, pk):
 def parse_form(form, schema):
     result = []
     for field_name in schema['fields']['vars']:
-        result.append(form.cleaned_data[field_name])
+        attr = form.cleaned_data[field_name]
+        if field_name in schema['fields']['decorators']:
+            attr = schema['fields']['decorators'][field_name](attr)
+        result.append(attr)
     return [result]

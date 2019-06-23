@@ -10,4 +10,5 @@ urlpatterns = [
     path('settings', views.settings, name='demo-settings'),
     path('graph', views.graph, name='demo-graph'),
     path('graph/<int:pk>', views.graph, name='demo-graph_'),
+    path('analyze_bigdata/<slug:type>', views.analyze_bigdata, name='bigdata'),
 ]

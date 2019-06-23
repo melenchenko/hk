@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from app.utils import save_url, parse_xml
-from app.queries import person_count, payment_sum, beneficiary_by_income, income_type, gorod_selo, child_count_populate, family_report
+from app.queries import person_count, payment_sum, beneficiary_by_income, income_type, gorod_selo, child_count_populate, family_report, big_data_query
 from .forms import Opros
 from .models import Answers, Question, Person, Oprosnik
 
@@ -8,7 +8,7 @@ def main(request):
     # save_url('http://card34.ru/uploads/images/nizkaya-tsena.png')
     # parse_xml()
     # child_count_populate()
-    # q = family_report()
+    # q = big_data_query()
     return render(request, 'app.html', {})
 
 

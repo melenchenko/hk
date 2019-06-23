@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from app.forms import LoadForm
 from app.models import Settings
 from app.loaders import payment_saver
-from .models import Demo, DEMO_SCHEMA, PredictForm, SettingsForm
+from .models import Demo, DEMO_SCHEMA, DEMO_SCHEMA_priz3, PredictForm, SettingsForm, BIGDATA_CONFIG
 from django.contrib.auth.decorators import login_required
 from app.data import scatterplot, fit, parse_form
 from django.urls import reverse_lazy
+from app.queries import big_data_query
 
 
 @login_required(login_url=reverse_lazy('login'))
@@ -78,4 +79,20 @@ def analyze(request, pk=0):
             result = result_[0]
     else:
         form = PredictForm()
+    return render(request, 'demo/analyze.html', {'result': result, 'form': form})
+
+
+@login_required(login_url=reverse_lazy('login'))
+def analyze_bigdata(request, type):
+    result = 'Input data to predict'
+    if request.method == "POST":
+        form = BIGDATA_CONFIG[type]['form'](request.POST)
+        if form.is_valid():
+            data = big_data_query()
+            predictor = fit(data, BIGDATA_CONFIG[type]['schema'])
+            prepare_data = parse_form(form, BIGDATA_CONFIG[type]['schema'])
+            result_ = predictor.predict(prepare_data)
+            result = result_[0]
+    else:
+        form = BIGDATA_CONFIG[type]['form']()
     return render(request, 'demo/analyze.html', {'result': result, 'form': form})

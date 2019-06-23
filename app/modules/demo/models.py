@@ -4,9 +4,12 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django import forms
 import csv
+import datetime, math
+
 
 DEMO_SCHEMA = {
     'moduleName': 'Demo',
+    'modelName': 'gauss',
     'fields': {
         'target': 'iris',
         'vars': ('sepal_length', 'sepal_width', 'petal_length', 'petal_width'),
@@ -24,6 +27,21 @@ DEMO_SCHEMA = {
     },
     'x': 'sepal_length',
     'y': 'sepal_width',
+}
+
+
+DEMO_SCHEMA_priz3 = {
+    'moduleName': 'DEMO_SCHEMA_priz3',
+    'modelName': 'knn',
+    'fields': {
+        'target': '_priz3',
+        'vars': ('_cap_count',
+                 'birthday',
+                 'month_income', 'city_id', 'gender', 'work_status', "main_income_type_id", "child_count", "_sum", "_cnt"),
+        'decorators': {
+            'birthday': lambda d: math.floor((datetime.date.today() - d).days/365.2425)
+        }
+    }
 }
 
 
@@ -65,5 +83,31 @@ class PredictForm(forms.ModelForm):
         model = Demo
         fields = DEMO_SCHEMA['fields']['vars']
 
+
+class PredictBDForm(forms.Form):
+    pass
+
+
+class Priz3Form(forms.Form):
+    _cap_count = forms.FloatField(min_value=0)
+    birthday = forms.DateField()
+    month_income = forms.FloatField(min_value=0)
+    city_id = forms.IntegerField(min_value=1)
+    gender = forms.IntegerField(min_value=0, max_value=1)
+    work_status = forms.IntegerField(min_value=0, max_value=3)
+    main_income_type_id = forms.IntegerField(min_value=1, max_value=9)
+    child_count = forms.IntegerField(min_value=0, max_value=10)
+    _sum = forms.FloatField(min_value=0)
+    _cnt = forms.IntegerField(min_value=0)
+
+
 class SettingsForm(forms.Form):
     load_id = forms.ModelChoiceField(queryset=Load.objects.filter(type='Demo'))
+
+
+BIGDATA_CONFIG = {
+    'priz3': {
+        'form': Priz3Form,
+        'schema': DEMO_SCHEMA_priz3,
+    }
+}

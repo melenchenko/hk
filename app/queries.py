@@ -231,3 +231,46 @@ def family_report():
                 pre['selo'][min(6, f.child_count)] += 1
     return pre #[0] - количество семей без детей, [1] - с одним ребенком, [6] - 6 и более детей
 
+
+def big_data_query():
+    query = '''SELECT p.*, SUM(pay.payment_sum) AS `_sum`, 
+	COUNT(pay.id) AS `_cnt`, 
+	f.child_count,
+	(SELECT SUM(cost) FROM app_capital WHERE `person_id`=p.id) `_cap_cost`,
+	(SELECT COUNT(`id`) FROM app_capital WHERE `person_id`=p.id) `_cap_count`,
+	a1.`value` `answer1`, a2.`value` `answer2`,
+	(SELECT SUM(payment_sum) FROM app_payment WHERE `payment_type_id`=1 AND `person_id`=p.id GROUP BY `person_id`) `_pt1_sum`,
+	(SELECT COUNT(payment_sum) FROM app_payment WHERE `payment_type_id`=1 AND `person_id`=p.id GROUP BY `person_id`) `_pt1_cnt`,
+	(SELECT SUM(payment_sum) FROM app_payment WHERE `payment_type_id`=2 AND `person_id`=p.id GROUP BY `person_id`) `_pt2_sum`,
+	(SELECT COUNT(payment_sum) FROM app_payment WHERE `payment_type_id`=2 AND `person_id`=p.id GROUP BY `person_id`) `_pt2_cnt`,
+	(SELECT SUM(payment_sum) FROM app_payment WHERE `payment_type_id`=3 AND `person_id`=p.id GROUP BY `person_id`) `_pt3_sum`,
+	(SELECT COUNT(payment_sum) FROM app_payment WHERE `payment_type_id`=3 AND `person_id`=p.id GROUP BY `person_id`) `_pt3_cnt`,
+	(SELECT SUM(payment_sum) FROM app_payment WHERE `payment_type_id`=4 AND `person_id`=p.id GROUP BY `person_id`) `_pt4_sum`,
+	(SELECT COUNT(payment_sum) FROM app_payment WHERE `payment_type_id`=4 AND `person_id`=p.id GROUP BY `person_id`) `_pt4_cnt`,
+	(SELECT SUM(payment_sum) FROM app_payment WHERE `payment_type_id`=5 AND `person_id`=p.id GROUP BY `person_id`) `_pt5_sum`,
+	(SELECT COUNT(payment_sum) FROM app_payment WHERE `payment_type_id`=5 AND `person_id`=p.id GROUP BY `person_id`) `_pt5_cnt`,
+	(SELECT SUM(payment_sum) FROM app_payment WHERE `payment_type_id`=6 AND `person_id`=p.id GROUP BY `person_id`) `_pt6_sum`,
+	(SELECT COUNT(payment_sum) FROM app_payment WHERE `payment_type_id`=6 AND `person_id`=p.id GROUP BY `person_id`) `_pt6_cnt`,
+	(SELECT SUM(payment_sum) FROM app_payment WHERE `payment_type_id`=7 AND `person_id`=p.id GROUP BY `person_id`) `_pt7_sum`,
+	(SELECT COUNT(payment_sum) FROM app_payment WHERE `payment_type_id`=7 AND `person_id`=p.id GROUP BY `person_id`) `_pt7_cnt`,
+	(SELECT SUM(payment_sum) FROM app_payment WHERE `payment_type_id`=8 AND `person_id`=p.id GROUP BY `person_id`) `_pt8_sum`,
+	(SELECT COUNT(payment_sum) FROM app_payment WHERE `payment_type_id`=8 AND `person_id`=p.id GROUP BY `person_id`) `_pt8_cnt`,
+	(SELECT SUM(payment_sum) FROM app_payment WHERE `payment_type_id`=9 AND `person_id`=p.id GROUP BY `person_id`) `_pt9_sum`,
+	(SELECT COUNT(payment_sum) FROM app_payment WHERE `payment_type_id`=9 AND `person_id`=p.id GROUP BY `person_id`) `_pt9_cnt`,
+	(SELECT SUM(payment_sum) FROM app_payment WHERE `payment_type_id`=10 AND `person_id`=p.id GROUP BY `person_id`) `_pt10_sum`,
+	(SELECT COUNT(payment_sum) FROM app_payment WHERE `payment_type_id`=10 AND `person_id`=p.id GROUP BY `person_id`) `_pt10_cnt`,
+	f.fpriznak_id `_family_priznak`,
+	(SELECT IF(COUNT(id)=0,0,1) FROM app_personpriznaklink WHERE `person_id`=p.id AND `priznak_id`=1) `_priz1`,
+	(SELECT IF(COUNT(id)=0,0,1) FROM app_personpriznaklink WHERE `person_id`=p.id AND `priznak_id`=2) `_priz2`,
+	(SELECT IF(COUNT(id)=0,0,1) FROM app_personpriznaklink WHERE `person_id`=p.id AND `priznak_id`=3) `_priz3`,
+	(SELECT IF(COUNT(id)=0,0,1) FROM app_personpriznaklink WHERE `person_id`=p.id AND `priznak_id`=4) `_priz4`,
+	(SELECT IF(COUNT(id)=0,0,1) FROM app_personpriznaklink WHERE `person_id`=p.id AND `priznak_id`=5) `_priz5`,
+	(SELECT IF(COUNT(id)=0,0,1) FROM app_personpriznaklink WHERE `person_id`=p.id AND `priznak_id`=6) `_priz6`
+FROM app_payment pay 
+RIGHT JOIN app_person p ON (p.id=pay.person_id) 
+LEFT JOIN app_family f ON (p.family_id=f.id)
+LEFT JOIN app_answers a1 ON (a1.person_id=p.id AND a1.id=1)
+LEFT JOIN app_answers a2 ON (a2.person_id=p.id AND a2.id=1)
+WHERE pay.payment_date>='2018-01-01' AND pay.payment_date<'2018-02-01'
+GROUP BY (p.id)'''
+    return Person.objects.raw(query)

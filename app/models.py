@@ -93,6 +93,9 @@ class PersonPriznakLink(models.Model):
     start = models.DateField(null=True, default=None, blank=True)
     end = models.DateField(blank=True, null=True, default=None)
 
+    class Meta:
+        unique_together = ('person', 'priznak')
+
     def __str__(self):
         return self.person.fullname + ': ' + self.priznak.name
 
