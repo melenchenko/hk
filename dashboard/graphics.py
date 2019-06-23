@@ -4,6 +4,7 @@ from dashboard.utils import Card
 import app.queries as qu
 
 
+
 def chart_left_center():
     """Тут должно быть наполнение какими-то бизнес данными, но пока вот так"""
     fig = {
@@ -90,7 +91,7 @@ def chart_doh():
                 pad=4
             ),
             'showlegend': False,
-            'title': 'Доходы',
+            #'title': 'Доходы',
 
     }
     }
@@ -208,9 +209,9 @@ def lines_right_center():
         showlegend=False,
         barmode='stack',
         margin=go.layout.Margin(
-            l=0,
-            r=0,
-            t=0,
+            l=5,
+            r=5,
+            t=5,
             pad=4
         )
     )
@@ -304,8 +305,8 @@ def dohg():
         margin=go.layout.Margin(
         #    l=10,
         #    r=0,
-            t=0,
-            b=0,
+            t=5,
+            b=5,
             pad=4
         ),
         annotations = [
@@ -469,7 +470,7 @@ def gorod_selo_dohod():
         ),
     )
 
-    data = [trace1, trace2]
+    data = [trace2, trace1]
     layout = dict(
         legend=dict(
             traceorder='reversed',
@@ -480,15 +481,16 @@ def gorod_selo_dohod():
         showlegend=False,
         barmode='stack',
         margin=go.layout.Margin(
-            l=0,
-            r=0,
-            t=0,
+            l=5,
+            r=5,
+            t=5,
+            #b=5,
             pad=4
         )
     )
 
     fig1 = dict(data=data, layout=layout)
-    data = [trace3, trace4]
+    data = [trace4, trace3]
     fig2 = dict(data=data, layout=layout)
     return fig1, fig2
 
@@ -496,21 +498,41 @@ def gorod_selo_fam():
     # family_report()
     #{'gorod': [0, 2, 11, 20, 18, 21, 42], 'selo': [0, 1, 5, 8, 12, 4, 11]}
     #data = qu.family_report()
-    child = ('Нет', '1', '2', "3", "4", "5", "6 и более")
+    child = ('Нет', '1 реб', '2-е', "3-е", "4-е", "5", "6 и более")
+    data = {'gorod': [0, 2, 11, 20, 18, 21, 42], 'selo': [0, 1, 5, 8, 12, 4, 11]}
 
-    trace = go.Sunburst(
-        labels=["Город", "Cain", "Seth", "Enos", "Noam", "Abel", "Awan", "Enoch", "Azura"],
-        parents=["", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve"],
-        values=[10, 14, 12, 10, 2, 6, 6, 4, 4],
-        outsidetextfont={"size": 20, "color": "#377eb8"},
-        marker={"line": {"width": 2}},
+    trace1 = go.Scatter(
+        x=child,
+        y=data['gorod'],
+        name='Город',
+        marker = dict(
+            color='#0099cc',
+            size=10,
+            line=dict(
+                width=2,
+                color='#1a39cc'
+            )
+        ),
+    )
+    trace2 = go.Scatter(
+        x=child,
+        y=data['selo'],
+        name='Село',
+        marker=dict(
+            size=10,
+            color='#59b300',
+            line=dict(
+                width=2,
+                color='#1a3300'
+            )
+        ),
     )
 
+    data = [trace1, trace2]
     layout = go.Layout(
-        margin=go.layout.Margin(t=0, l=0, r=0, b=0),
-        sunburstcolorway=["#636efa", "#ef553b", "#00cc96"]
+        barmode='stack'
     )
 
-    return go.Figure([trace], layout)
+    return dict(data=data, layout=layout)
 
 
