@@ -41,6 +41,7 @@ DEMO_SCHEMA_priz3 = {
         'decorators': {
             'birthday': lambda d, skip_id = False: math.floor((datetime.date.today() - d).days/365.2425),
             'city_id': lambda c, skip_id = False: c if skip_id else getattr(c, 'id'),
+            'main_income_type': lambda c, skip_id = False: c if skip_id else getattr(c, 'id'),
         }
     }
 }
@@ -90,16 +91,18 @@ class PredictBDForm(forms.Form):
 
 
 class Priz3Form(forms.Form):
-    _cap_count = forms.FloatField(min_value=0)
-    birthday = forms.DateField()
-    month_income = forms.FloatField(min_value=0)
-    city_id = forms.ModelChoiceField(City.objects.all())
-    gender = forms.IntegerField(min_value=0, max_value=1)
-    work_status = forms.IntegerField(min_value=0, max_value=3)
-    main_income_type_id = forms.ModelChoiceField(IncomeType.objects.all())
-    child_count = forms.IntegerField(min_value=0, max_value=10)
-    _sum = forms.FloatField(min_value=0)
-    _cnt = forms.IntegerField(min_value=0)
+    _cap_count = forms.FloatField(min_value=0, label='Стоимость задекларированного имущества')
+    birthday = forms.DateField(label='Дата рождения')
+    month_income = forms.FloatField(min_value=0, label='Среднемесячный доход')
+    city_id = forms.ModelChoiceField(City.objects.all(), label='Регион')
+    gender = forms.ChoiceField(label='Пол', choices=((0, 'Женский'), (1, 'Мужской')))
+    work_status = forms.ChoiceField(label='Статус',  choices=(
+        (0, 'безработный'), (1, 'работающий'), (2, 'пенсионер'), (3, 'школьник')
+    ))
+    main_income_type_id = forms.ModelChoiceField(IncomeType.objects.all(), label='Основной источник дохода')
+    child_count = forms.IntegerField(min_value=0, max_value=10, label='Количество детей')
+    _sum = forms.FloatField(min_value=0, label='Сумма выплаченных пособий')
+    _cnt = forms.IntegerField(min_value=0, label='Количество выплат')
 
 
 class SettingsForm(forms.Form):

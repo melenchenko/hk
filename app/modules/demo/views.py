@@ -86,7 +86,7 @@ def analyze(request, pk=0):
 
 @login_required(login_url=reverse_lazy('login'))
 def analyze_bigdata(request, type):
-    result = 'Input data to predict'
+    result = 'Введите данные для прогнозирования'
     if request.method == "POST":
         form = BIGDATA_CONFIG[type]['form'](request.POST)
         if form.is_valid():
