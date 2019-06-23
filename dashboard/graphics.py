@@ -165,7 +165,10 @@ def lines_right_center():
     nopay_women = list()
     nopay_men = list()
     for line in data:
-        x.append("%s-%s" % (line['age'][0], line['age'][1]))
+        if line['age'][1] > 80:
+            x.append("старше 80")
+        else:
+            x.append("%s-%s" % (line['age'][0], line['age'][1]))
         total_women.append(line['all'][0])
         total_men.append(line['all'][1])
         pay_women.append(line['with_payments'][0])
@@ -436,7 +439,10 @@ def gorod_selo_dohod():
 
     for line in data:
         # Если пусто пропущу, что-бы место не занимал
-        age.append("%s-%s" % (line['age'][0], line['age'][1]))
+        if line['age'][1] > 80:
+            age.append("старше 80")
+        else:
+            age.append("%s-%s" % (line['age'][0], line['age'][1]))
         nopay_work_town.append(line['all']['work_city'] - line['with_payments']['work_city'])
         nopay_work_vill.append(line['all']['work_village'] - line['with_payments']['work_village'])
         nopay_nowork_town.append(line['all']['nowork_city'] - line['with_payments']['nowork_city'])
