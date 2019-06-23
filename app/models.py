@@ -59,7 +59,7 @@ class Priznak(models.Model):
     name = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.name
+        return '{0}'.format(self.name)
 
 
 class IncomeType(models.Model):
@@ -90,16 +90,16 @@ class Person(models.Model):
 class PersonPriznakLink(models.Model):
     priznak = models.ForeignKey(Priznak, on_delete=models.CASCADE)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    start = models.DateField()
-    end = models.DateField(blank=True)
+    start = models.DateField(null=True, default=None, blank=True)
+    end = models.DateField(blank=True, null=True, default=None)
 
     def __str__(self):
-        return self.priznak
+        return self.person.fullname + ': ' + self.priznak.name
 
 
 class Capital(models.Model):
-    start = models.DateField()
-    end = models.DateField(blank=True)
+    start = models.DateField(null=True, default=None, blank=True)
+    end = models.DateField(blank=True, null=True, default=None)
     cost = models.DecimalField(max_digits=20, decimal_places=2)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
 
