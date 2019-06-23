@@ -5,22 +5,14 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="page-header">
                 <h2 class="pageheader-title">Данные о гражданнах, получающих социальные выплаты, по возрастным группам и гендерному признаку</h2>
-                <p class="pageheader-text">Описание карты</p>
-
             </div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- end pageheader -->
-    <!-- ============================================================== -->
 
     <div class="row">
-        <!-- ============================================================== -->
-        <!-- basic table  -->
-        <!-- ============================================================== -->
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
-                <h5 class="card-header">{{ big_table.name }}</h5>
+{#                <h5 class="card-header">{{ big_table['data_vg'].name }}</h5>#}
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered first">
@@ -31,12 +23,11 @@
                                     <th>Мужчины</th>
                                 </tr>
                             </thead>
-                            {% for line in data %}
+                            {% for line in data_vg %}
                                 <tr>
-                                    <td>Всего {{ line.woman.all }} чел., в том числе получает выплат {{ line.woman.with_payments }} чел., от общего числа {{ line.woman.percent }} </td>
+                                    <td>Всего {{ line.woman.all }} чел., в том числе получает выплаты {{ line.woman.with_payments }} чел., от общего числа {{ line.woman.percent }} </td>
                                     <td>{{ line.age }}</td>
-                                    <td>Всего {{ line.men.all }} чел., в том числе получает выплат {{ line.men.with_payments }} чел., от общего числа {{ line.men.percent }} </td>
-                                </tr>
+                                    <td>Всего {{ line.men.all }} чел., в том числе получает выплаты {{ line.men.with_payments }} чел., от общего числа {{ line.men.percent }} </td>
                                 </tr>
                             {% endfor %}
                         </table>
@@ -44,9 +35,43 @@
                 </div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- end basic table  -->
-        <!-- ============================================================== -->
+    </div>
+</div>
+
+<div class="container-fluid dashboard-content ">
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <h2 class="pageheader-title">Данные о гражданнах, получающих социальные выплаты, по возрастным группам и территориальному признаку</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+{#                <h5 class="card-header">{{ big_table[1].name }}</h5>#}
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered first">
+                            <thead >
+                                <tr class="border-0">
+                                    <th>Город</th>
+                                    <th>Возраст</th>
+                                    <th>Село</th>
+                                </tr>
+                            </thead>
+                            {% for line in data_vt %}
+                                <tr>
+                                    <td>Всего {{ line.city.all }} чел., в том числе получает выплаты {{ line.city.work_city }} чел. работающих, {{ line.city.nowork_city }} чел. безработных</td>
+                                    <td>{{ line.age }}</td>
+                                    <td>{{ line.village.all }} чел., в том числе получает выплаты {{ line.village.work_village }} чел. работающих, {{ line.village.nowork_village }} чел. безработных</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

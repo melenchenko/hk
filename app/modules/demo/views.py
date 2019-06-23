@@ -1,5 +1,3 @@
-
-
 from django.shortcuts import render, redirect
 from app.forms import LoadForm
 from app.models import Settings

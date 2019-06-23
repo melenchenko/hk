@@ -3,7 +3,7 @@
 {% load static %}
 <h2 style="margin-top:50px;margin-left:20px;">{{ title }}</h2>
 <form method="POST" class="post-form">{% csrf_token %}
-{#{{ result }}#}
+    <div style="margin-left:50px;font-size:14px;">Прогнозируемое значение:  {{ result }}</div>
     <link rel="stylesheet" href="{% static "assets/vendor/bootstrap/css/bootstrap.min.css" %}">
     <link href="{% static "assets/vendor/fonts/circular-std/style.css"  %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static "assets/libs/css/style.css" %}">
@@ -28,6 +28,5 @@
             </div>
         </div>
     </div>
-
 </form>
 {% endblock content %}
