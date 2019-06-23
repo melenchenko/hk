@@ -70,7 +70,6 @@ def chart_doh():
             }
         ],
         "layout": {
-            "title": "Тип выплат",
             "grid": {"rows": 1, "columns": 1},
             "annotations": [
                 {
@@ -83,8 +82,70 @@ def chart_doh():
                     "y": 0.5
                 },
             ],
+            'margin': go.layout.Margin(
+                l=40,
+                r=40,
+                t=40,
+                b=40,
+                pad=4
+            ),
             'showlegend': False,
-        }
+            'title': 'Доходы',
+
+    }
+    }
+    return fig
+
+
+def payment():
+    """
+    income_type()
+    {1: {'name': 'Заработная плата', 'sum': Decimal('1121639.70'), 'percent': '8%'},
+    2: {'name': 'Пенсия', 'sum': Decimal('1702985.60'), 'percent': '12%'},
+    :return:
+    """
+
+    data = qu.payment_sum()
+    labels = list()
+    values = list()
+    for line in data:
+        labels.append(line['name'])
+        values.append(line['sum'])
+    fig = {
+        "data": [
+            {
+                "values": values,
+                "labels": labels,
+                "domain": {"column": 0},
+                "name": "Тип выплат",
+                "hoverinfo": "label+value+percent+name",
+                "hole": .4,
+                "type": "pie"
+            }
+        ],
+        "layout": {
+            "grid": {"rows": 1, "columns": 1},
+            "annotations": [
+                {
+                    "font": {
+                        "size": 12
+                    },
+                    "showarrow": False,
+                    "text": "",
+                    "x": 0.20,
+                    "y": 0.5
+                },
+            ],
+            'margin': go.layout.Margin(
+                l=40,
+                r=40,
+                t=40,
+                b=40,
+                pad=4
+            ),
+            'showlegend': False,
+
+    }
     }
     return fig
 
@@ -161,7 +222,7 @@ def lines_right_center():
 
 
 def dohg():
-    """Готовит Доходы"""
+    """Заполняет график  Доходы"""
     # [{'data': [], 'income': [0, 0.01], 'all': [0, 0], 'with_payments': [0, 0], 'percent': ['0%', '0%']}e9+od
     data = qu.beneficiary_by_income()
     # {'age': [0, 18], 'all': [133, 143], 'with_payments': [117, 116], 'percent': ['88%', '81%']
@@ -186,32 +247,51 @@ def dohg():
         pay_men.append(line['with_payments'][1])
         nopay_men.append((line['all'][1] - line['with_payments'][1]))
         nopay_women.append(line['all'][0] - line['with_payments'][0])
-
     trace1 = go.Bar(
-        x=x,
-        y=nopay_women,
+        y=x,
+        x=vector_minus(nopay_women),
+        text=nopay_women,
         name="Не получают",
+        orientation='h',
+        marker=dict(
+            color='#0099cc',
+        ),
+        hovertemplate='%{text}'
+
     )
 
     trace2 = go.Bar(
-        x=x,
-        y=nopay_men,
+        y=x,
+        x=nopay_men,
         name="Не получают",
+        orientation='h',
+        marker=dict(
+            color='#0099cc',
+        ),
     )
 
     trace3 = go.Bar(
-        x=x,
-        y=pay_women,
+        y=x,
+        x=vector_minus(pay_women),
+        text=pay_women,
         name="Получают",
+        orientation='h',
+        marker=dict(
+            color='#ff9900',
+        ),
+        hovertemplate='%{text}'
     )
 
     trace4 = go.Bar(
-        x=x,
-        y=pay_men,
+        y=x,
+        x=pay_men,
         name="Получают",
+        orientation='h',
+        marker=dict(
+            color='#ff9900',
+        ),
     )
 
-    data = [trace2, trace4]
     layout = dict(
         legend=dict(
             traceorder='reversed',
@@ -220,19 +300,33 @@ def dohg():
             )
         ),
         showlegend=False,
-        barmode='stack',
+        barmode='group',
         margin=go.layout.Margin(
-            l=0,
-            r=0,
+        #    l=10,
+        #    r=0,
             t=0,
+            b=0,
             pad=4
-        )
-    )
+        ),
+        annotations = [
+        dict(
+            x=120,
+            y=0,
+            ax=0,
+            ay=40,
+            text='Мужчины',
+        ),
+        dict(
+                x=-120,
+                y=0,
+            ax=0,
+            ay=40,
+                text='Женщины',
+            )
+    ]
 
-    fig1 = dict(data=data, layout=layout)
-    data = [trace1, trace3]
-    fig2 = dict(data=data, layout=layout)
-    return fig1, fig2
+    )
+    return dict(data=[trace1, trace2, trace3, trace4], layout=layout)
 
 
 def cards():
@@ -301,3 +395,99 @@ def regions():
         group_list.append(
             Card(name=name[i], value=random.randint(20000, 50000), trend=trend, success=(trend >= 0)).to_dict())
     return group_list
+
+
+def vector_minus(vector):
+    res = list()
+    for i in vector:
+        res.append(i*(-1))
+    return res
+
+def gorod_selo():
+    """
+    Заполняет график город-село
+    {'age': [0, 18], 'all': {'work_city': 64, 'work_village': 31, 'nowork_city': 124, 'nowork_village': 57}, 'with_payments': {'work_city': 51, 'work_village': 24, 'nowork_city': 110, 'nowork_village': 48}}
+    :return:
+    """
+    data = qu.gorod_selo()
+    age = list()
+    nopay_work_town = list()
+    nopay_work_vill = list()
+    nopay_nowork_town = list()
+    nopay_nowork_vill = list()
+    pay_nowork_town = list()
+    pay_nowork_vill = list()
+    pay_work_town = list()
+    pay_work_vill = list()
+
+    for line in data:
+        # Если пусто пропущу, что-бы место не занимал
+        age.append("%s-%s" % (line['age'][0], line['age'][1]))
+        nopay_work_town.append(line['all']['work_city'] - line['with_payments']['work_city'])
+        nopay_work_vill.append(line['all']['work_village'] - line['with_payments']['work_village'])
+        nopay_nowork_town.append(line['all']['nowork_city'] - line['with_payments']['nowork_city'])
+        nopay_nowork_vill.append(line['all']['nowork_village'] - line['with_payments']['nowork_village'])
+        # Получатели
+        pay_work_town.append(line['with_payments']['work_city'])
+        pay_work_vill.append(line['with_payments']['work_village'])
+        pay_nowork_town.append(line['with_payments']['nowork_city'])
+        pay_nowork_vill.append(line['with_payments']['nowork_village'])
+
+    trace1 = go.Bar(
+        x=age,
+        y=pay_work_town,
+        name="Получают",
+        marker=dict(
+            color='#ff9900',
+        ),
+    )
+
+    trace2 = go.Bar(
+        x=age,
+        y=nopay_work_town,
+        name="Не получают",
+        marker=dict(
+            color='#0099cc',
+        ),
+    )
+
+    trace3 = go.Bar(
+        x=age,
+        y=pay_work_vill,
+        name="Получают",
+        marker=dict(
+            color='#ff9900',
+        ),
+    )
+
+    trace4 = go.Bar(
+        x=age,
+        y=nopay_work_vill,
+        name="Не получают",
+        marker=dict(
+            color='#0099cc',
+        ),
+    )
+
+    data = [trace1, trace2]
+    layout = dict(
+        legend=dict(
+            traceorder='reversed',
+            font=dict(
+                size=10
+            )
+        ),
+        showlegend=False,
+        barmode='stack',
+        margin=go.layout.Margin(
+            l=0,
+            r=0,
+            t=0,
+            pad=4
+        )
+    )
+
+    fig1 = dict(data=data, layout=layout)
+    data = [trace3, trace4]
+    fig2 = dict(data=data, layout=layout)
+    return fig1, fig2

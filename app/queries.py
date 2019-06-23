@@ -72,6 +72,9 @@ def person_count(need_age = [], need_all = False):
 
 
 def payment_sum():
+    """ Выплаты
+    [{'name': 'Единовременная выплата по рождению ребенка', 'sum': Decimal('9887695.00')},
+    """
     result = []
     query = '''SELECT pt.id, SUM(p.payment_sum) as s, pt.name 
         FROM app_payment p 
@@ -127,6 +130,7 @@ def get_persons(payments_only = True, need_where = [], need_join = []):
 
 
 def income_type():
+    """ ДОоходы """
     persons = get_persons()
     incomes = IncomeType.objects.all()
     sum = 0
