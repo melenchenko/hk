@@ -68,7 +68,7 @@ def dash(request):
     chart_family = plot(gr.gorod_selo_fam(), output_type='div', include_plotlyjs=True)
 
     # Представление на графике
-    data = {'name': 'ДатаСоц DASHBOARD', 'title': 'ДатаСоц',
+    data = {'name': 'ДатаСоц DASHBOARD', 'title': 'СоцДата',
             'table': table, 'histogram': histogram,
             'plot_chart1': plot_chart1, 'plot_lines1': plot_lines1, 'plot_lines0': plot_lines0,
             'social': social, 'region': region, 'chart_doh': chart_doh, 'chart_payment': payment_plt,
