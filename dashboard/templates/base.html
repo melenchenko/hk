@@ -11,7 +11,7 @@
     <link href="{% static "assets/vendor/fonts/circular-std/style.css"  %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static "assets/libs/css/style.css" %}">
     <link rel="stylesheet" href="{% static "assets/vendor/fonts/fontawesome/css/fontawesome-all.css" %}">
-    <link rel="stylesheet" href="{% static "assets/vendor/charts/chartist-bundle/chartist.css" %}">
+    <link rel="stylesheet" href="{%  static "assets/vendor/charts/chartist-bundle/chartist.css" %}">
     <link rel="stylesheet" href="{% static "assets/vendor/charts/morris-bundle/morris.css" %}">
     <link rel="stylesheet" href="{% static "assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css" %}">
     <link rel="stylesheet" href="{% static "assets/vendor/charts/c3charts/c3.css" %}">
@@ -139,6 +139,9 @@
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link active" href="/app"><i class="fa fa-fw fa-rocket"></i>Анализ</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link active"href="{% url 'demo-load' %}"><i class="fa fa-fw fa-anchor"></i>Загрузка данных</a>
                             </li>
                         </ul>
                     </div>
