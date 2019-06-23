@@ -42,7 +42,7 @@ DEMO_SCHEMA_priz3 = {
         'decorators': {
             'birthday': lambda d, skip_id = False: math.floor((datetime.date.today() - d).days / 365.2425),
             'city_id': lambda c, skip_id = False: c if skip_id else getattr(c, 'id'),
-            'main_income_type': lambda c, skip_id = False: c if skip_id else getattr(c, 'id'),
+            'main_income_type_id': lambda c, skip_id = False: c if skip_id else getattr(c, 'id'),
         }
     }
 }
