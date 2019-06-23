@@ -1,5 +1,5 @@
 from .models import Person, Payment, PaymentType, IncomeType, Family, City
-import datetime
+import joblib, os
 from django.db import connection
 
 
@@ -199,24 +199,29 @@ def child_count_populate():
 
 
 def family_report():
-    families = Family.objects.all()
-    pre = {'gorod': [0]*7, 'selo': [0]*7}
-    for f in families:
-        parents = Person.objects.filter(is_child=0, family_id=f.id)
-        cnt = 0
-        num_parents = 0
-        for parent in parents:
-            if Payment.objects.filter(person_id = parent.id).count():
-                num_parents += 1
-                if parent.city.type == 1:
-                    cnt += 1
-                    if cnt == 2:
-                        break
-        if num_parents > 0:
-            if cnt >= 1:
-                pre['gorod'][min(6, f.child_count)] += 1
-            else:
-                pre['selo'][min(6, f.child_count)] += 1
+    filename = 'fits.dumps/family_report.pkl'
+    if os.path.exists(filename):
+        pre = joblib.load(filename)
+    else:
+        families = Family.objects.all()
+        pre = {'gorod': [0]*7, 'selo': [0]*7}
+        for f in families:
+            parents = Person.objects.filter(is_child=0, family_id=f.id)
+            cnt = 0
+            num_parents = 0
+            for parent in parents:
+                if Payment.objects.filter(person_id = parent.id).count():
+                    num_parents += 1
+                    if parent.city.type == 1:
+                        cnt += 1
+                        if cnt == 2:
+                            break
+            if num_parents > 0:
+                if cnt >= 1:
+                    pre['gorod'][min(6, f.child_count)] += 1
+                else:
+                    pre['selo'][min(6, f.child_count)] += 1
+        joblib.dump(pre, filename)
     return pre #[0] - количество семей без детей, [1] - с одним ребенком, [6] - 6 и более детей
 
 

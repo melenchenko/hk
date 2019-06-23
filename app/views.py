@@ -8,7 +8,7 @@ def main(request):
     # save_url('http://card34.ru/uploads/images/nizkaya-tsena.png')
     # parse_xml()
     # child_count_populate()
-    # q = big_data_query()
+    # q = family_report()
     return render(request, 'app.html', {})
 
 
