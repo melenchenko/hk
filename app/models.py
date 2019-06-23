@@ -4,8 +4,8 @@ from django.utils import timezone
 
 class Load(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    file = models.FileField(upload_to='uploads/')
+    title = models.CharField(max_length=200, help_text='Название выборки')
+    file = models.FileField(upload_to='uploads/', help_text='Файл CSV')
     created_date = models.DateTimeField(default=timezone.now)
     type = models.CharField(max_length=40, default='Demo')
 
