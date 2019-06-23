@@ -51,7 +51,7 @@ class Family(models.Model):
     child_count = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
-        return self.fpriznak
+        return self.fpriznak.name
 
 
 
@@ -188,4 +188,4 @@ class Answers(models.Model):
         unique_together = ('person', 'question')
 
     def __str__(self):
-        return self.value
+        return str(self.value)
