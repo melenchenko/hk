@@ -50,7 +50,7 @@ def dash(request):
     payment_plt = plot(gr.payment(), output_type='div', include_plotlyjs=True)
 
     # Город-село
-    town, vill = gr.gorod_selo()
+    town, vill = gr.gorod_selo_dohod()
     town_plt = plot(town, output_type='div', include_plotlyjs=False)
     vill_plt = plot(vill, output_type='div', include_plotlyjs=False)
 
@@ -64,12 +64,15 @@ def dash(request):
     # Доход мужчине-женщины
     bar_dohod = plot(gr.dohg(), output_type='div', include_plotlyjs=False)
 
+    # Семья город село
+    chart_family = plot(gr.gorod_selo_fam(), output_type='div', include_plotlyjs=True)
+
     # Представление на графике
     data = {'name': 'Название DASHBOARD', 'title': 'Заглавие',
             'table': table, 'histogram': histogram,
             'plot_chart1': plot_chart1, 'plot_lines1': plot_lines1, 'plot_lines0': plot_lines0,
             'social': social, 'region': region, 'chart_doh': chart_doh, 'chart_payment': payment_plt,
-            'town': town_plt, 'vill': vill_plt, 'dohod': bar_dohod
+            'town': town_plt, 'vill': vill_plt, 'dohod': bar_dohod, 'chart_family': chart_family
             }
     #assert False
     return render(request, 'dash_board.html', context=data)

@@ -403,7 +403,7 @@ def vector_minus(vector):
         res.append(i*(-1))
     return res
 
-def gorod_selo():
+def gorod_selo_dohod():
     """
     Заполняет график город-село
     {'age': [0, 18], 'all': {'work_city': 64, 'work_village': 31, 'nowork_city': 124, 'nowork_village': 57}, 'with_payments': {'work_city': 51, 'work_village': 24, 'nowork_city': 110, 'nowork_village': 48}}
@@ -491,3 +491,26 @@ def gorod_selo():
     data = [trace3, trace4]
     fig2 = dict(data=data, layout=layout)
     return fig1, fig2
+
+def gorod_selo_fam():
+    # family_report()
+    #{'gorod': [0, 2, 11, 20, 18, 21, 42], 'selo': [0, 1, 5, 8, 12, 4, 11]}
+    #data = qu.family_report()
+    child = ('Нет', '1', '2', "3", "4", "5", "6 и более")
+
+    trace = go.Sunburst(
+        labels=["Город", "Cain", "Seth", "Enos", "Noam", "Abel", "Awan", "Enoch", "Azura"],
+        parents=["", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve"],
+        values=[10, 14, 12, 10, 2, 6, 6, 4, 4],
+        outsidetextfont={"size": 20, "color": "#377eb8"},
+        marker={"line": {"width": 2}},
+    )
+
+    layout = go.Layout(
+        margin=go.layout.Margin(t=0, l=0, r=0, b=0),
+        sunburstcolorway=["#636efa", "#ef553b", "#00cc96"]
+    )
+
+    return go.Figure([trace], layout)
+
+
