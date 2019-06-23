@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<div style="margin-top:50px">
+Ссылка на опросник для оценки качества оказания социальной помощи.<br/>
+<a href="{% url 'opros_' pk=1 %}">{{ request.path }}/1</a></div>
+{% endblock content %}

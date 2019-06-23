@@ -16,8 +16,10 @@ def errors(request):
     return render(request, 'app.html', {})
 
 
-def opros(request, pk):
-    if request.method == "POST":
+def opros(request, pk=0):
+    if pk == 0:
+        return render(request, 'oprosmain.html')
+    elif request.method == "POST":
         form = Opros(request.POST, oprosnik_id=pk)
         if form.is_valid():
             oprosnik_ = Oprosnik.objects.get(id=pk)
