@@ -48,6 +48,7 @@ class FamilyPriznak(models.Model):
 
 class Family(models.Model):
     fpriznak = models.ForeignKey(FamilyPriznak, on_delete=models.CASCADE, blank=True, default=None, null=True)
+    child_count = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
         return self.fpriznak
@@ -58,7 +59,7 @@ class Priznak(models.Model):
     name = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.name
+        return '{0}'.format(self.name)
 
 
 class IncomeType(models.Model):
@@ -76,10 +77,11 @@ class Person(models.Model):
     month_income = models.DecimalField(max_digits=20, decimal_places=2, blank=True)
     gender = models.PositiveSmallIntegerField(default=0)
     health_status = models.IntegerField(default=0)
-    work_status = models.IntegerField(default=0) #0 - безработный, 1 - пенсионер, 2 - школьник и т.д.
+    work_status = models.IntegerField(default=0) #0 - безработный, 1 - работающий, 3 - пенсионер, 2 - школьник и т.д.
     snils = models.CharField(max_length=50, blank=True, default='')
     suprug = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='_suprug', default=None, null=True)
     main_income_type = models.ForeignKey(IncomeType, on_delete=models.CASCADE, blank=True, default=None, null=True)
+    is_child = models.BooleanField(default=False)
 
     def __str__(self):
         return self.fullname
@@ -88,16 +90,16 @@ class Person(models.Model):
 class PersonPriznakLink(models.Model):
     priznak = models.ForeignKey(Priznak, on_delete=models.CASCADE)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    start = models.DateField()
-    end = models.DateField(blank=True)
+    start = models.DateField(null=True, default=None, blank=True)
+    end = models.DateField(blank=True, null=True, default=None)
 
     def __str__(self):
-        return self.priznak
+        return self.person.fullname + ': ' + self.priznak.name
 
 
 class Capital(models.Model):
-    start = models.DateField()
-    end = models.DateField(blank=True)
+    start = models.DateField(null=True, default=None, blank=True)
+    end = models.DateField(blank=True, null=True, default=None)
     cost = models.DecimalField(max_digits=20, decimal_places=2)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
 
@@ -154,3 +156,30 @@ class Payment(models.Model):
 
     def __str__(self):
         return "%s: %s руб" % (self.payment_type, self.payment_sum)
+
+
+class Oprosnik(models.Model):
+    title = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.title
+
+
+class Question(models.Model):
+    text = models.CharField(max_length=200)
+    oprosnik = models.ForeignKey(Oprosnik, on_delete=models.CASCADE, blank=True, default=None, null=True)
+
+    def __str__(self):
+        return self.text
+
+
+class Answers(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, default=None, null=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, default=None, null=True)
+    value = models.IntegerField(default = 0)
+
+    class Meta:
+        unique_together = ('person', 'question')
+
+    def __str__(self):
+        return self.value

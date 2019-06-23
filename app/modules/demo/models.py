@@ -1,5 +1,5 @@
 from django.db import models
-from app.models import Load
+from app.models import Load, Payment, Person, Payer, PaymentType
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django import forms
@@ -27,7 +27,7 @@ DEMO_SCHEMA = {
 }
 
 
-@receiver(post_save, sender=Load)
+# @receiver(post_save, sender=Load)
 def demo_saver(sender, instance, **kwargs):
     if instance.type == 'Demo':
         with open(instance.file.name, newline='') as f:

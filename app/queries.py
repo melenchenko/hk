@@ -1,5 +1,6 @@
-from .models import Person, Payment, PaymentType, IncomeType
+from .models import Person, Payment, PaymentType, IncomeType, Family, City
 import datetime
+from django.db import connection
 
 
 AGES = [
@@ -116,7 +117,7 @@ def beneficiary_by_income(need_income = [], need_all = False):
     return result
 
 
-def get_persons(payments_only = True):
+def get_persons(payments_only = True, need_where = [], need_join = []):
     if payments_only:
         query = '''SELECT DISTINCT p.* FROM app_person p
         INNER JOIN app_payment pay ON (p.id=pay.person_id)'''
@@ -139,3 +140,94 @@ def income_type():
     for income in incomes:
         result[income.id]['percent'] = (str(round(100 * result[income.id]['sum'] / sum)) if sum > 0 else '0') + '%'
     return result
+
+
+def gorod_selo():
+    persons_all_query = '''SELECT DISTINCT p.id, s.type, p.work_status
+        FROM app_person p 
+        INNER JOIN app_city s ON (s.id=p.city_id)
+        WHERE '''
+    persons_with_payments_query = '''SELECT DISTINCT p.id, s.type, p.work_status
+        FROM app_person p 
+        INNER JOIN app_city s ON (s.id=p.city_id)
+        INNER JOIN app_payment pay ON (p.id=pay.person_id)
+        WHERE '''
+    result = []
+    for age in AGES:
+        age_query = AGE_NUMBER + '>= ' + str(age[0]) + ' AND ' + AGE_NUMBER + '< ' + str(age[1])
+        query = persons_all_query + age_query
+        persons_all = Person.objects.raw(query)
+        all = {
+            'work_city': 0,
+            'work_village': 0,
+            'nowork_city': 0,
+            'nowork_village': 0,
+        }
+        for person in persons_all:
+            if (person.type == 1):
+                if (person.work_status == 1):
+                    all['work_city'] += 1
+                else:
+                    all['nowork_city'] += 1
+            else:
+                if (person.work_status == 1):
+                    all['work_village'] += 1
+                else:
+                    all['nowork_village'] += 1
+        query = persons_with_payments_query + age_query
+        persons_with_payments = Person.objects.raw(query)
+        with_payments = {
+            'work_city': 0,
+            'work_village': 0,
+            'nowork_city': 0,
+            'nowork_village': 0,
+        }
+        for person in persons_with_payments:
+            if (person.type == 1):
+                if (person.work_status == 1):
+                    with_payments['work_city'] += 1
+                else:
+                    with_payments['nowork_city'] += 1
+            else:
+                if (person.work_status == 1):
+                    with_payments['work_village'] += 1
+                else:
+                    with_payments['nowork_village'] += 1
+        result.append({
+            'age': age,
+            'all': all,
+            'with_payments': with_payments,
+        })
+    return result
+
+#запускать асинхронно каждый раз, когда меняется person[family_id] или добавляется новый person
+def child_count_populate():
+    query = 'SELECT COUNT(*) as `child_count`, family_id as `id` FROM app_person GROUP BY family_id'
+    fam = Family.objects.raw(query)
+    for f in fam:
+        query = 'UPDATE app_family SET child_count=' + str(f.child_count) + ' WHERE id=' + str(f.id)
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+
+
+def family_report():
+    families = Family.objects.all()
+    pre = {'gorod': [0]*7, 'selo': [0]*7}
+    for f in families:
+        parents = Person.objects.filter(is_child=0, family_id=f.id)
+        cnt = 0
+        num_parents = 0
+        for parent in parents:
+            if Payment.objects.filter(person_id = parent.id).count():
+                num_parents += 1
+                if parent.city.type == 1:
+                    cnt += 1
+                    if cnt == 2:
+                        break
+        if num_parents > 0:
+            if cnt >= 1:
+                pre['gorod'][min(6, f.child_count)] += 1
+            else:
+                pre['selo'][min(6, f.child_count)] += 1
+    return pre #[0] - количество семей без детей, [1] - с одним ребенком, [6] - 6 и более детей
+

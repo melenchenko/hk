@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from app.forms import LoadForm
 from app.models import Settings
+from app.loaders import payment_saver
 from .models import Demo, DEMO_SCHEMA, PredictForm, SettingsForm
 from django.contrib.auth.decorators import login_required
 from app.data import scatterplot, fit, parse_form
@@ -14,10 +15,16 @@ def load(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.type = 'Demo'
+            module_name = 'Payment'
+            post.type = module_name
             post.save()
-            Settings.objects.get_or_create(module='Demo', key='load_id', defaults = {'value': post.id})
-            return redirect('demo-view_', pk=post.pk)
+            Settings.objects.get_or_create(module=module_name, key='load_id', defaults = {'value': post.id})
+            success, errors = payment_saver(post)
+            if success:
+                return redirect('page-main')
+            else:
+                return render(request, 'errors.html', {'errors': errors})
+            # return redirect('demo-view_', pk=post.pk)
     else:
         form = LoadForm()
     return render(request, 'demo/load.html', {'form': form})
