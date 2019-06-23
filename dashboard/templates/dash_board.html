@@ -24,18 +24,18 @@
         <!-- Блок верхних карточек  -->
         <!-- ============================================================== -->
         <div class="ecommerce-widget">
-             <div class="row">
+            <div class="row">
                 <!-- Возраст и выпляты-->
                 <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
                         <h5 class="card-header">Население. Женщины</h5>
-                        {{ plot_lines0|safe }}
+                        {{ plot_lines1|safe }}
                     </div>
                 </div>
-                 <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
                         <h5 class="card-header">Население. Мужчины</h5>
-                        {{ plot_lines1|safe }}
+                        {{ plot_lines0|safe }}
                     </div>
                 </div>
 
@@ -54,7 +54,7 @@
                         {{ town|safe }}
                     </div>
                 </div>
-                 <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
                         <h5 class="card-header">Получатели. Село</h5>
                         {{ vill|safe }}
@@ -66,26 +66,29 @@
             <!-- Окончание блока -->
 
             <!-- ============================================================== -->
-        <!-- Блок нижних карточек  -->
-        <!-- ============================================================== -->
-             <div class="row">
+            <!-- Блок нижних карточек  -->
+            <!-- ============================================================== -->
+            <div class="row">
                 <!-- Доход-->
-                 <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
                         <h5 class="card-header">Доходы. Женщины-Мужчины (тыс.р)</h5>
                         {{ dohod|safe }}
                     </div>
                 </div>
-
-                <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="card">
-                        <h5 class="card-header">Семья</h5>
-                        <!--
-                        <div>{{ chart_doh|safe }}</div>
-                        <div>{{ chart_family|safe}}</div>-->
+                        <h5 class="card-header">Кол-во детей в семье</h5>
                         {{ chart_family|safe}}
                     </div>
                 </div>
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card">
+                        <h5 class="card-header">Доходы человека получающего помощь</h5>
+                        {{ chart_doh|safe }}
+                    </div>
+                </div>
+
             </div>
             <!-- Окончание блока -->
         </div>

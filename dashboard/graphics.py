@@ -3,6 +3,7 @@ import random
 from dashboard.utils import Card
 import app.queries as qu
 
+COLOR = dict(vill_no_pay="#336600", vill_pay="#b3ff66", town_no_pay="#994d00", town_pay="#ffb366")
 
 def chart_left_center():
     """Тут должно быть наполнение какими-то бизнес данными, но пока вот так"""
@@ -19,7 +20,7 @@ def chart_left_center():
                 "domain": {"column": 0},
                 "name": "Состав доходов",
                 "hoverinfo": "label+percent+name",
-                "hole": .4,
+                "hole": .7,
                 "type": "pie"
             }
         ],
@@ -65,7 +66,7 @@ def chart_doh():
                 "domain": {"column": 0},
                 "name": "Тип выплат",
                 "hoverinfo": "label+value+percent+name",
-                "hole": .4,
+                "hole": .6,
                 "type": "pie"
             }
         ],
@@ -90,7 +91,7 @@ def chart_doh():
                 pad=4
             ),
             'showlegend': False,
-            'title': 'Доходы',
+            #'title': 'Доходы',
 
     }
     }
@@ -151,6 +152,7 @@ def payment():
 
 
 def lines_right_center():
+    # Население
     data = qu.person_count()
     # {'age': [0, 18], 'all': [133, 143], 'with_payments': [117, 116], 'percent': ['88%', '81%']
     x = list()
@@ -177,24 +179,36 @@ def lines_right_center():
         x=x,
         y=nopay_women,
         name="Не получают",
+        marker=dict(
+            color='#b30000',
+        ),
     )
 
     trace2 = go.Bar(
         x=x,
         y=nopay_men,
         name="Не получают",
+        marker=dict(
+            color='#002b80',
+        ),
     )
 
     trace3 = go.Bar(
         x=x,
         y=pay_women,
         name="Получают",
+        marker=dict(
+            color='#ff9999',
+        ),
     )
 
     trace4 = go.Bar(
         x=x,
         y=pay_men,
         name="Получают",
+        marker=dict(
+            color='#99bbff',
+        ),
     )
 
     data = [trace2, trace4]
@@ -208,9 +222,9 @@ def lines_right_center():
         showlegend=False,
         barmode='stack',
         margin=go.layout.Margin(
-            l=0,
-            r=0,
-            t=0,
+            l=5,
+            r=5,
+            t=5,
             pad=4
         )
     )
@@ -254,7 +268,7 @@ def dohg():
         name="Не получают",
         orientation='h',
         marker=dict(
-            color='#0099cc',
+            color='#b30000',
         ),
         hovertemplate='%{text}'
 
@@ -266,7 +280,7 @@ def dohg():
         name="Не получают",
         orientation='h',
         marker=dict(
-            color='#0099cc',
+            color='#002b80',
         ),
     )
 
@@ -277,7 +291,7 @@ def dohg():
         name="Получают",
         orientation='h',
         marker=dict(
-            color='#ff9900',
+            color='#ff9999',
         ),
         hovertemplate='%{text}'
     )
@@ -288,7 +302,7 @@ def dohg():
         name="Получают",
         orientation='h',
         marker=dict(
-            color='#ff9900',
+            color='#99bbff',
         ),
     )
 
@@ -304,8 +318,8 @@ def dohg():
         margin=go.layout.Margin(
         #    l=10,
         #    r=0,
-            t=0,
-            b=0,
+            t=5,
+            b=5,
             pad=4
         ),
         annotations = [
@@ -438,7 +452,7 @@ def gorod_selo_dohod():
         y=pay_work_town,
         name="Получают",
         marker=dict(
-            color='#ff9900',
+            color=COLOR['town_pay'],
         ),
     )
 
@@ -447,7 +461,7 @@ def gorod_selo_dohod():
         y=nopay_work_town,
         name="Не получают",
         marker=dict(
-            color='#0099cc',
+            color=COLOR['town_no_pay'],
         ),
     )
 
@@ -456,7 +470,7 @@ def gorod_selo_dohod():
         y=pay_work_vill,
         name="Получают",
         marker=dict(
-            color='#ff9900',
+            color=COLOR['vill_pay'],
         ),
     )
 
@@ -465,11 +479,11 @@ def gorod_selo_dohod():
         y=nopay_work_vill,
         name="Не получают",
         marker=dict(
-            color='#0099cc',
+            color=COLOR['vill_no_pay'],
         ),
     )
 
-    data = [trace1, trace2]
+    data = [trace2, trace1]
     layout = dict(
         legend=dict(
             traceorder='reversed',
@@ -480,15 +494,16 @@ def gorod_selo_dohod():
         showlegend=False,
         barmode='stack',
         margin=go.layout.Margin(
-            l=0,
-            r=0,
-            t=0,
+            l=5,
+            r=5,
+            t=5,
+            #b=5,
             pad=4
         )
     )
 
     fig1 = dict(data=data, layout=layout)
-    data = [trace3, trace4]
+    data = [trace4, trace3]
     fig2 = dict(data=data, layout=layout)
     return fig1, fig2
 
@@ -496,21 +511,42 @@ def gorod_selo_fam():
     # family_report()
     #{'gorod': [0, 2, 11, 20, 18, 21, 42], 'selo': [0, 1, 5, 8, 12, 4, 11]}
     #data = qu.family_report()
-    child = ('Нет', '1', '2', "3", "4", "5", "6 и более")
+    child = ('Нет', '1 реб', '2-е', "3-е", "4-е", "5", "6 и более")
+    data = {'gorod': [0, 2, 11, 20, 18, 40, 60][::-1], 'selo': [5, 5, 6, 8, 12, 20, 42][::-1]}
 
-    trace = go.Sunburst(
-        labels=["Город", "Cain", "Seth", "Enos", "Noam", "Abel", "Awan", "Enoch", "Azura"],
-        parents=["", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve"],
-        values=[10, 14, 12, 10, 2, 6, 6, 4, 4],
-        outsidetextfont={"size": 20, "color": "#377eb8"},
-        marker={"line": {"width": 2}},
+    trace1 = go.Scatter(
+        x=child,
+        y=data['gorod'],
+        name='Город',
+
+        marker = dict(
+            color='#e67300',
+            size=10,
+            line=dict(
+                width=2,
+                color='#4d2600'
+            )
+        ),
+    )
+    trace2 = go.Scatter(
+        x=child,
+        y=data['selo'],
+        name='Село',
+        marker=dict(
+            size=10,
+            color='#69cc00',
+            line=dict(
+                width=2,
+                color='#1a3300'
+            )
+        ),
     )
 
+    data = [trace1, trace2]
     layout = go.Layout(
-        margin=go.layout.Margin(t=0, l=0, r=0, b=0),
-        sunburstcolorway=["#636efa", "#ef553b", "#00cc96"]
+        barmode='stack'
     )
 
-    return go.Figure([trace], layout)
+    return dict(data=data, layout=layout)
 
 

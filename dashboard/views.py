@@ -44,7 +44,7 @@ def dash(request):
     # Линии в центре справа
     pl0, pl1 = gr.lines_right_center()
     plot_lines0 = plot(pl0, output_type='div', include_plotlyjs=True)
-    plot_lines1 = plot(pl1, output_type='div', include_plotlyjs=False)
+    plot_lines1 = plot(pl1, output_type='div', include_plotlyjs=True)
 
     # Чарт Доход
     payment_plt = plot(gr.payment(), output_type='div', include_plotlyjs=True)
@@ -68,7 +68,7 @@ def dash(request):
     chart_family = plot(gr.gorod_selo_fam(), output_type='div', include_plotlyjs=True)
 
     # Представление на графике
-    data = {'name': 'Название DASHBOARD', 'title': 'Заглавие',
+    data = {'name': 'СоцДата DASHBOARD', 'title': 'СоцДата',
             'table': table, 'histogram': histogram,
             'plot_chart1': plot_chart1, 'plot_lines1': plot_lines1, 'plot_lines0': plot_lines0,
             'social': social, 'region': region, 'chart_doh': chart_doh, 'chart_payment': payment_plt,
